@@ -10,12 +10,13 @@ routes.get('/',(req, res)=>{
 let valor = "";
 let ExiteElemento = false;
 
-routes.post('/datoReciclaje/:dni',(req,res)=>{
+routes.post('/datoReciclaje/:data',(req,res)=>{
     
     console.log("-->",req.body,req.params);
 
     valor =  req.body.tipoBasura; // BOTELLA o OTROS
-    ExiteElemento = req.body.activar;//true or false
+    ExiteElemento = req.body.activar.valueOf();//true or false
+    console.log("nuevo->",ExiteElemento,true);
 
     res.json("Datos actualizados!!");
 })
