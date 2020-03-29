@@ -99,7 +99,8 @@ function draw() {
  */
 function GuardarNeurona() {
     if (clasificando) {
-        save(knn, "modelo.json");
+        //save(knn, "modelo.json");
+        knn.save()
     }
 }
 
@@ -225,7 +226,8 @@ function clasificar(){
             let valorConfianza = result.confidencesByLabel[etiquetaClasificada];
             
             valorConfianzaPorcentual = eval(valorConfianza.toFixed(2) * 100);
-            //console.log("->",result);
+
+            console.log("->",result);
             enviarClasifiacionServidor(etiquetaClasificada, valorConfianzaPorcentual);
 
 
@@ -287,7 +289,7 @@ function msjpruebaM(msj){
  * @param {string} name 
  */
 // Temporary save code until ml5 version 0.2.2
-const save = (knn, name) => {
+const save1 = (knn, name) => {
     const dataset = knn.knnClassifier.getClassifierDataset();
     if (knn.mapStringToIndex.length > 0) {
       Object.keys(dataset).forEach(key => {
