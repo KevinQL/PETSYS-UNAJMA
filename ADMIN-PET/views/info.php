@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <?php
+        include_once('views/modules/cdnsheader.html');
+    ?>
+
     <title>Info</title>
 </head>
 <body>
@@ -12,5 +15,11 @@
 
     <h1>PÁGIANA DE INFORMACIÓN</h1>
     
+
+
+    <?php
+        include_once('views/modules/cdnsfooter.html');
+    ?>
+
 </body>
 </html>
