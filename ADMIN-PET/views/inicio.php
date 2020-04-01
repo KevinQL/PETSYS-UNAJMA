@@ -1,13 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <?php
+        include_once('views/modules/cdnsheader.html');
+    ?>
+
     <title>INICIO</title>
 </head>
 <body>
+
+    <?php
+        include_once("views/modules/navegacion.html");
+    ?>
+
     <h1>PAGINA DE INICIO</h1>
 
+    <?php
+
+        $user = new adminController();
+        var_dump($user->traerUser());
+        echo "</br>";
+        var_dump($_SESSION['data']['tipo_usuario']);
+    ?>
+
+
+
+
+    <?php
+        include_once('views/modules/cdnsfooter.html');
+    ?>
     <script src="./views/js/main.js"></script>
 </body>
 </html>

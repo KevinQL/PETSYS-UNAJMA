@@ -6,6 +6,11 @@
     <title>Info</title>
 </head>
 <body>
+    <?php
+        include_once("views/modules/navegacion.html");
+    ?>
+
     <h1>PÁGIANA DE INFORMACIÓN</h1>
+    
 </body>
 </html>
