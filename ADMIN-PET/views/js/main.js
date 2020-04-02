@@ -6,6 +6,71 @@ console.log("CARGADO => main.js");
 evalSesion();
 
 
+/**
+ * 
+ */
+function btnInsertarEtiqueta(){        
+
+    if(evaluarInsertarEtiqueta()){
+        console.log("Enviar datos");
+    }else{
+        console.log("No Enviar datos");
+    }
+}
+
+/**
+ * 
+ */
+function evaluarInsertarEtiqueta(){
+    let progres = document.querySelector("#progreso-etiqueta");
+    let txtNombre = document.querySelector("#txt-nombre");
+    let txtDetalles = document.querySelector("#txt-detalles");
+    let txtPeso = document.querySelector("#txt-peso");
+    let txtPrecio = document.querySelector("#txt-precio");
+    let progres_val = 2;
+    if(txtNombre.value.trim().length == 0 && txtDetalles.value.trim().length == 0 && txtPeso.value.trim().length == 0 && txtPrecio.value.trim().length == 0 ){
+        progres.style.width = progres_val+"%";        
+        intercambiaClases(txtNombre,"is-valid","is-invalid");
+        intercambiaClases(progres,"bg-success","bg-info")
+        return false;
+    }else{
+        progres_val=0;
+        progres_val += (txtNombre.value.trim().length != 0)? 100/4 : 0;
+        progres_val += (txtDetalles.value.trim().length != 0)? 100/4 : 0;
+        progres_val += (txtPeso.value.trim().length != 0)? 100/4 : 0;
+        progres_val += (txtPrecio.value.trim().length != 0)? 100/4 : 0;
+        
+        intercambiaClases(progres,"bg-success","bg-info")
+        if(progres_val >= 100){
+            intercambiaClases(progres,"bg-info","bg-success");
+        }
+        console.log(progres_val);
+        intercambiaClases(txtNombre,"is-invalid","is-valid")  
+
+        progres.style.width = progres_val+"%";
+        
+        return true;      
+    }
+}
+
+
+
+/**
+ * 
+ * @param {Object} element 
+ * @param {String} removeClass 
+ * @param {String} addClass 
+ * 
+ * Intercambia una clase por otra
+ */
+function intercambiaClases(element, removeClass, addClass){
+    if(element.classList.contains(removeClass)){
+        element.classList.add(addClass);
+        element.classList.remove(removeClass);
+    }
+}
+
+
 
 /**
  * 
@@ -34,14 +99,19 @@ function evalSesion() {
                 }
             });
 
-
         })        
     }
 }
 
 
+
 /**
  * 
+ * @param {String} metodo 
+ * @param {Object} datajson 
+ * @param {Function} bloqueCode 
+ * 
+ * Función ajax modificado 
  */
 function ajaxKev(metodo, datajson, bloqueCode){
 
