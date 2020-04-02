@@ -28,28 +28,30 @@ function evaluarInsertarEtiqueta(){
     let txtPeso = document.querySelector("#txt-peso");
     let txtPrecio = document.querySelector("#txt-precio");
     let progres_val = 2;
-    if(txtNombre.value.trim().length == 0 && txtDetalles.value.trim().length == 0 && txtPeso.value.trim().length == 0 && txtPrecio.value.trim().length == 0 ){
-        progres.style.width = progres_val+"%";        
+
+    progres_val=0;
+    progres_val += (txtNombre.value.trim().length != 0)? 100/4 : 0;
+    progres_val += (txtDetalles.value.trim().length != 0)? 100/4 : 0;
+    progres_val += (txtPeso.value.trim().length != 0)? 100/4 : 0;
+    progres_val += (txtPrecio.value.trim().length != 0)? 100/4 : 0;    
+    
+    progres.style.width = progres_val+"%";     
+    
+    intercambiaClases(progres,"bg-success","bg-info")
+
+    if(txtNombre.value.trim().length == 0){
+
         intercambiaClases(txtNombre,"is-valid","is-invalid");
-        intercambiaClases(progres,"bg-success","bg-info")
         return false;
-    }else{
-        progres_val=0;
-        progres_val += (txtNombre.value.trim().length != 0)? 100/4 : 0;
-        progres_val += (txtDetalles.value.trim().length != 0)? 100/4 : 0;
-        progres_val += (txtPeso.value.trim().length != 0)? 100/4 : 0;
-        progres_val += (txtPrecio.value.trim().length != 0)? 100/4 : 0;
-        
-        intercambiaClases(progres,"bg-success","bg-info")
+
+    }else{      
+                          
         if(progres_val >= 100){
             intercambiaClases(progres,"bg-info","bg-success");
-        }
-        console.log(progres_val);
-        intercambiaClases(txtNombre,"is-invalid","is-valid")  
+        }        
+        intercambiaClases(txtNombre,"is-invalid","is-valid")                  
+        return true;   
 
-        progres.style.width = progres_val+"%";
-        
-        return true;      
     }
 }
 
