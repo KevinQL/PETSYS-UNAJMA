@@ -5,6 +5,13 @@
     <?php
         include_once("views/modules/cdnsheader.html");
     ?>
+    
+    <style>
+        .text-modal{
+            font-family: 'Inconsolata', monospace;
+            color:rgba(1,100,0,.7);
+        }
+    </style>
 
     <title>ETIQUETAS</title>
 </head>

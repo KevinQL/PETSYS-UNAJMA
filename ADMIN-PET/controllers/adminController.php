@@ -59,24 +59,27 @@
             return $result->fetch(PDO::FETCH_ASSOC);
         }
 
+        
 
         /**
          * 
          */
         public function sessionController($data){
-
-            $user = $this->txtres($data->user);
-            $password = $this->txtres($data->password);
-
+            //Recibiendo datos de la página
+            $user = $this->txtres($data->userv);
+            $password = $this->txtres($data->passwordv);
+            //enviado datos al modelo
             $resModel = adminModel::obtenerUsuarioSession($user,$password);
-            
+            //evaluando resultados
             if($resModel['eval']){           
-
+                //Obtener datos. y devolviendo resultado a la pagina (vista-usuario)
                 $resData = $resModel['data']->fetch(PDO::FETCH_ASSOC);
                 if($user == $resData['user'] && $password == $resData['password']){
+                    //Iniciando session
                     session_start();
                     $_SESSION['start']=true;
                     $_SESSION['data']=$resData;
+                    //Retornando los datos a la vista
                     return ['eval'=>true,'data'=>$resData];
                 }
             }else{
