@@ -87,6 +87,36 @@
             }
         }
 
+
+        /**
+         * @return Array
+         * @param String $data
+         * Funcion que insertar etiquetas en la db
+         */
+        public function insert_etiqueta_Controller($data){  
+
+            $dataModel = new stdClass; 
+
+            $dataModel->txtNombrev = $this->txtres($data->txtNombrev);
+            $dataModel->txtDetallesv = $this->txtres($data->txtDetallesv);
+            $dataModel->txtPesov = $this->txtres($data->txtPesov);
+            $dataModel->txtPreciov = $this->txtres($data->txtPreciov);            
+            $dataModel->usuario_idv = self::usuario()['id'];
+
+            $resModel = adminModel::insert_etiqueta_Model($dataModel);
+            
+            return $resModel;            
+
+        }
+
+
+        /**
+         * Datos del usuario actual registrado o logueado
+         */
+        private function usuario(){
+            session_start();
+            return $_SESSION['data'];
+        }
         /**
          * Parametro
          * @param {string} $variable

@@ -1,6 +1,6 @@
 <?php
 
-    //session_start();
+    session_start();
 
     $conAjax = true;
 
@@ -13,12 +13,14 @@
         if($data->id === "SESSION"){
             # code...
             $session = new adminController();
-            $res = $session->sessionController($data);
-            echo json_encode($res);
+            $res_session = $session->sessionController($data);
+            echo json_encode($res_session);
             
         }elseif ($data->id === "I-ETIQUETA") {
             # code...
-            echo json_encode($data);
+            $etiqueta = new adminController();
+            $res_etiqueta = $etiqueta->insert_etiqueta_Controller($data);
+            echo json_encode($res_etiqueta);
         }
     
         else {

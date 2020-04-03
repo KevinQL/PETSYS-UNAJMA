@@ -29,6 +29,25 @@
             }
         }
 
+        /**
+         * 
+         */
+        protected function insert_etiqueta_Model($data){
+            $query = "INSERT INTO residuo SET
+                    nombre = '{$data->txtNombrev}',
+                    detalles = '{$data->txtDetallesv}',
+                    peso_promedio_kg = '{$data->txtPesov}',
+                    precio_valorado_unidad = '{$data->txtPreciov}' ,
+                    usuario_id = {$data->usuario_idv}
+                ";
+            $result = mainModel::ejecutar_una_consulta($query);
+            if($result->rowCount() >= 1){
+                return ["eval"=>true,'data'=>[$data]];
+            }else{
+                return ['eval'=>false,'data'=>[]];
+            }
+        }
+
     }
 
 ?>

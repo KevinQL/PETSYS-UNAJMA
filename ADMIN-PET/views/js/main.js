@@ -24,11 +24,16 @@ function dataHtml_Session(){
 function evaluar_Session(){
     let dataHtml = dataHtml_Session();
     let {userv,passwordv} = dataHtml['value'];
+    let {user,password} = dataHtml['element'];
 
     if(userv.length != 0 && passwordv.length != 0){
+        intercambiaClases(user,'is-invalid','is-valid',false);
+        intercambiaClases(password,'is-invalid','is-valid',false);
         return true;
     }else{
-        sweetModalMin('Llenar los campos','top-end',1500,'error');
+        (userv.length == 0)?intercambiaClases(user,'is-valid','is-invalid',false):intercambiaClases(user,'is-invalid','is-valid',false);
+        (passwordv.length == 0)?intercambiaClases(password,'is-valid','is-invalid',false):intercambiaClases(password,'is-invalid','is-valid',false);        
+        sweetModalMin('Llenar los campos','top-end',1500,'info');
         return false;
     }
 }
@@ -43,6 +48,7 @@ function evalSesion() {
             
             if(evaluar_Session()){
                 let dataHtml = dataHtml_Session();
+                let {user,password} = dataHtml['element'];
                 let {userv,passwordv} = dataHtml['value'];
     
                 ajaxKev('post',{                   
@@ -53,8 +59,10 @@ function evalSesion() {
                 (data)=>{                    
                     if(data.eval){
                         location.reload();                        
-                    }else{                        
-                        sweetModalMin('Datos incorrectos!!','top',2000,'info');
+                    }else{  
+                        sweetModalMin('Datos incorrectos!!','top',2000,'error');
+                        intercambiaClases(user,'is-valid',"",false);                      
+                        intercambiaClases(password,'is-valid',"",false);                      
                     }
                 });
 
@@ -111,19 +119,19 @@ function evaluarInsertarEtiqueta(){
     
     progres.style.width = progres_val+"%";     
     
-    intercambiaClases(progres,"bg-success","bg-info")
+    intercambiaClases(progres,"bg-success","bg-info",true)
 
     if(txtNombrev.length == 0){
 
-        intercambiaClases(txtNombre,"is-valid","is-invalid");
+        intercambiaClases(txtNombre,"is-valid","is-invalid",true);
         return false;
 
     }else{      
 
         if(progres_val >= 100){
-            intercambiaClases(progres,"bg-info","bg-success");
+            intercambiaClases(progres,"bg-info","bg-success",true);
         }        
-        intercambiaClases(txtNombre,"is-invalid","is-valid")                  
+        intercambiaClases(txtNombre,"is-invalid","is-valid",true)                  
         return true;   
 
     }
@@ -139,19 +147,25 @@ function btnInsertarEtiqueta(){
     let {txtNombrev,txtDetallesv,txtPesov,txtPreciov} = dataHtml['value']
         
     if(evaluarInsertarEtiqueta()){
-        console.log("Enviar datos");
+        
         ajaxKev('POST',{
             id:'I-ETIQUETA',
             txtNombrev,
             txtDetallesv,
             txtPesov,
             txtPreciov
-        },(data)=>{
-            console.log("resultados...",data);
-            sweetModal("Se guardo exitosamente",'center','success',1500);            
+        },
+        (data)=>{
+            //console.log("resultados...",data);
+            if(data.eval){
+                sweetModal(`Se guardo exitosamente.`,'center','success',1500);            
+            }else{
+                sweetModal(`Error! No se pudo procesar la peticion.`,'center','error',1500);            
+            }
         })
-    }else{
-        console.log("No Enviar datos");
+
+    }else{        
+        sweetModalMin('Error! Rellenar campos.','top-end',1500,'error');
     }
 }
 //****************************************************************************************** */
@@ -220,11 +234,16 @@ function sweetModalMin(mensaje,position,timer,icon,){
  * 
  * Intercambia una clase por otra
  */
-function intercambiaClases(element, removeClass, addClass){
+function intercambiaClases(element, removeClass, addClass, existe){
     if(element.classList.contains(removeClass)){
-        element.classList.add(addClass);
         element.classList.remove(removeClass);
-    }
+        if(addClass.trim() != "")element.classList.add(addClass);        
+    }else{
+        if(!existe){
+            if(addClass.trim() != "")element.classList.add(addClass);
+            if(removeClass.trim() != "")element.classList.remove(removeClass);
+        }
+    }    
 }
 
 
