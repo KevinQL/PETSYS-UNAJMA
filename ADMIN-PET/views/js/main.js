@@ -173,6 +173,124 @@ function btnInsertarEtiqueta(){
 //****************************************************************************************** */
 
 
+
+//****************************************************************************************** */
+
+function dataHtml_Usuario() {
+    let progress = document.querySelector("#progresoUsuario");
+    let btnGuardarUsuario = document.querySelector("#btnGuardarUsuario");
+    let txtDni = document.querySelector("#txtDni");
+    let txtNombre = document.querySelector("#txtNombre");
+    let txtUsuario = document.querySelector("#txtUsuario");
+    let txtPassword = document.querySelector("#txtPassword");
+    let txtApellido = document.querySelector("#txtApellido");
+    let radioNivelUsuario = document.querySelector("input[name='radioNivelUsuario']:checked"); //value
+    let switchEstado = document.querySelector("#switchEstado"); //checked
+
+    return {
+        element : {
+            progress, btnGuardarUsuario, txtDni,txtNombre,txtUsuario,txtPassword,txtApellido,radioNivelUsuario,switchEstado
+        },
+        value:{
+            txtDniv: txtDni.value.trim(),
+            txtNombrev: txtNombre.value.trim(),
+            txtUsuariov: txtUsuario.value.trim(),
+            txtPasswordv: txtPassword.value.trim(),
+            txtApellidov: txtApellido.value.trim(),
+            radioNivelUsuariov: radioNivelUsuario.value.trim(),
+            switchEstadov: switchEstado.checked
+        }
+    };
+}
+
+function evaluarInsertarUsuario(){
+    let dataHtml = dataHtml_Usuario();
+    let {progress,txtDni,txtNombre,txtUsuario,txtPassword,txtApellido,radioNivelUsuario} = dataHtml['element'];
+    let {txtDniv,txtNombrev,txtUsuariov,txtPasswordv,txtApellidov,radioNivelUsuariov,switchEstadov} = dataHtml['value'];
+    let progres_val = 0;    
+
+    intercambiaClases(txtDni,'is-valid','is-invalid',false);
+    intercambiaClases(txtNombre,'is-valid','is-invalid',false);
+    intercambiaClases(txtUsuario,'is-valid','is-invalid',false);
+    intercambiaClases(txtPassword,'is-valid','is-invalid',false);
+    intercambiaClases(txtApellido,'is-valid','is-invalid',false);
+
+
+    if(txtDniv.length != 0 || txtNombrev.length != 0 || txtUsuariov.length != 0 || txtPasswordv.length != 0 || txtApellidov.length != 0 || radioNivelUsuariov.length != 0){
+        
+        if(txtDniv.length == 8){
+            intercambiaClases(txtDni,'is-invalid','is-valid',true)
+            progres_val += 100/7;
+        }
+        
+        (switchEstadov) ? progres_val += 100/7 : progres_val += 100/7;
+        
+        var obj = [txtNombre,txtUsuario,txtPassword,txtApellido,radioNivelUsuario];          
+        obj.forEach(element => {   
+            if(element.value.trim().length != 0){
+                intercambiaClases(element,'is-invalid','is-valid',true)
+                progres_val += 100/7;
+            }
+        });
+        
+        progress.style.width = progres_val+'%';
+        console.log(progres_val);
+        if(progres_val >= 100){
+            intercambiaClases(progress,'bg-info','bg-success',true);
+            return true;
+        }else{
+            intercambiaClases(progress,'bg-success','bg-info',true);
+            return false;
+        }
+
+    }else{        
+        return false;        
+    }
+
+}
+function btnInsertarUsuario(){
+
+    if(evaluarInsertarUsuario()){
+        
+        let dataHtml = dataHtml_Usuario();
+        let {txtDniv,txtNombrev,txtApellidov,txtUsuariov,txtPasswordv,radioNivelUsuariov,switchEstadov} = dataHtml['value']
+
+        ajaxKev('POST',{
+            id:'I-USUARIO',
+            txtDniv,
+            txtNombrev,
+            txtApellidov,
+            txtUsuariov,
+            txtPasswordv,
+            radioNivelUsuariov,
+            switchEstadov
+        },
+        data=>{
+            console.log(data)
+            if(data.eval){
+                sweetModal('Se Guardo un Usuario!','center','success',1500);
+            }else{
+                sweetModal('No Se pudo procesar la informacion!','center','error',1500);
+
+            }
+        })
+        
+    }else{
+        sweetModal('Error! Llenar los campos vacios.','center','error',1500);
+    }
+}
+
+//****************************************************************************************** */
+//****************************************************************************************** */
+//****************************************************************************************** */
+
+
+
+
+//****************************************************************************************** */
+//****************************************************************************************** */
+//****************************************************************************************** */
+
 /**
  * 
  * @param {*} mensaje 
@@ -232,16 +350,25 @@ function sweetModalMin(mensaje,position,timer,icon,){
  * @param {String} removeClass 
  * @param {String} addClass 
  * 
- * Intercambia una clase por otra
+ * Intercambia una clase una por otra
+ * en el intento de que no exista las calses que se quiere eliminar y agregar, se intará agregar una clase
  */
 function intercambiaClases(element, removeClass, addClass, existe){
-    if(element.classList.contains(removeClass)){
+    if(element.classList.contains(removeClass) && !element.classList.contains(addClass) && existe){
         element.classList.remove(removeClass);
         if(addClass.trim() != "")element.classList.add(addClass);        
     }else{
         if(!existe){
-            if(addClass.trim() != "")element.classList.add(addClass);
-            if(removeClass.trim() != "")element.classList.remove(removeClass);
+            if(element.classList.contains(removeClass) && !element.classList.contains(addClass)){
+                intercambiaClases(element, removeClass, addClass, true);
+            }else{
+                if(element.classList.contains(removeClass)){
+                    element.classList.remove(removeClass);
+                }
+                if(!element.classList.contains(addClass)){
+                    if(addClass.trim() != "")element.classList.add(addClass);
+                }
+            }
         }
     }    
 }

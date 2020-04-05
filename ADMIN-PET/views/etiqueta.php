@@ -5,13 +5,6 @@
     <?php
         include_once("views/modules/cdnsheader.html");
     ?>
-    
-    <style>
-        .text-modal{
-            font-family: 'Inconsolata', monospace;
-            color:rgba(1,100,0,.7);
-        }
-    </style>
 
     <title>ETIQUETAS</title>
 </head>
@@ -120,8 +113,8 @@
                     </div>
                     <!---->
                     <!-- BOTON DE GUARDADO  -->
-                    <div class="text-center py-4">
-                        <button type="button" class="btn btn-outline-primary btn-lg" id="btn-insertar-etiqueta" onclick="btnInsertarEtiqueta()">INSERTAR ETIQUETA</button>
+                    <div class="text-center text-muted mx-auto my-4">
+                        <button type="button" class="btn btn-outline-light btn-lg btn-block" id="btn-insertar-etiqueta" onclick="btnInsertarEtiqueta()">INSERTAR ETIQUETA</button>
                     </div>                    
 
                 </div>

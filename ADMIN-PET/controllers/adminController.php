@@ -23,7 +23,7 @@
 
                 //Validando niveles de seguridad. [1]:NIVEL ADMINISTRADOR
                 if($_SESSION['data']['tipo_usuario']==1){
-                    $arrayPaginas = ["salir_sistema","inicio","info",'registrar_usuario',"etiqueta"];
+                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta",'adm_usuario'];
                 }else{
                     $arrayPaginas = ["salir_sistema","inicio","info","etiqueta"];
                 }              
@@ -56,7 +56,7 @@
 
         public function traerUser(){
             $result = adminModel::sqlSingle("SELECT * FROM usuario");
-            return $result->fetch(PDO::FETCH_ASSOC);
+            return $result;
         }
 
         
@@ -73,15 +73,13 @@
             //evaluando resultados
             if($resModel['eval']){           
                 //Obtener datos. y devolviendo resultado a la pagina (vista-usuario)
-                $resData = $resModel['data']->fetch(PDO::FETCH_ASSOC);
-                if($user == $resData['user'] && $password == $resData['password']){
-                    //Iniciando session
-                    session_start();
-                    $_SESSION['start']=true;
-                    $_SESSION['data']=$resData;
-                    //Retornando los datos a la vista
-                    return ['eval'=>true,'data'=>$resData];
-                }
+                $resData = $resModel['data'];
+                //Iniciando session
+                session_start();
+                $_SESSION['start']=true;
+                $_SESSION['data']=$resData;
+                //Retornando los datos a la vista
+                return ['eval'=>true,'data'=>$resData];                
             }else{
                 return ['eval'=>false,'data'=>[]];
             }
@@ -109,6 +107,35 @@
 
         }
 
+        /**
+         * @return Array
+         * @param Object $data
+         * Funcion que insertar usuarios en la db
+         */
+        public function insert_usuario_Controller($data){  
+
+            $password_hash = self::encriptar_desencriptar($this->txtres($data->txtPasswordv),'');
+
+            $dataModel = new stdClass; 
+
+            $dataModel->dni = $this->txtres($data->txtDniv);
+            $dataModel->nombre = $this->txtres($data->txtNombrev);
+            $dataModel->apellido = $this->txtres($data->txtApellidov);
+            $dataModel->user = $this->txtres($data->txtUsuariov);                        
+            $dataModel->password = $password_hash;                        
+            $dataModel->tipo_usuario = ( $this->txtres($data->radioNivelUsuariov)==="administrador" ) ? 1 : 2 ;                        
+            $dataModel->estado = ( $this->txtres($data->switchEstadov) ) ? 1 : 0 ;                        
+
+            $resModel = adminModel::insert_usuario_Model($dataModel);
+            
+            return $resModel;            
+            
+        }
+
+
+
+        //------------------------------------------------------------------------------
+
 
         /**
          * Datos del usuario actual registrado o logueado
@@ -117,6 +144,8 @@
             session_start();
             return $_SESSION['data'];
         }
+
+
         /**
          * Parametro
          * @param {string} $variable
@@ -127,6 +156,8 @@
         private function txtres($variable){
             return strtolower(trim($variable));
         }
+
+
 
     }
 

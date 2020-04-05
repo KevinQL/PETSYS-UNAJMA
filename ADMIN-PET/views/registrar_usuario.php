@@ -1,3 +1,0 @@
-<?php
-
-    echo "PAGINA DE REGISTRO DE USUARIOS";
