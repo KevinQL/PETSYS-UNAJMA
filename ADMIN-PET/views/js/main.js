@@ -248,6 +248,7 @@ function evaluarInsertarUsuario(){
     }
 
 }
+
 function btnInsertarUsuario(){
 
     if(evaluarInsertarUsuario()){
@@ -286,7 +287,48 @@ function btnInsertarUsuario(){
 
 
 
+//****************************************************************************************** */
+function btnInsertarUsuario_inicio(){
 
+    if(evaluarInsertarUsuario()){
+        
+        let dataHtml = dataHtml_Usuario();
+        let {txtDniv,txtNombrev,txtApellidov,txtUsuariov,txtPasswordv,radioNivelUsuariov,switchEstadov} = dataHtml['value']
+
+        ajaxKev('POST',{
+            id:'I-USUARIO-INICIO',
+            txtDniv,
+            txtNombrev,
+            txtApellidov,
+            txtUsuariov,
+            txtPasswordv,
+            radioNivelUsuariov:'usuario',
+            switchEstadov:false
+        },
+        data=>{
+            console.log(data)
+            if(data.eval){
+                sweetModal('Se Guardo un Usuario!','center','success',1500);
+            }else{
+                sweetModal('No Se pudo procesar la informacion!','center','error',1500);
+
+            }
+        })
+        
+    }else{
+        sweetModal('Error! Llenar los campos vacios.','center','error',1500);
+    }
+}
+
+
+
+//****************************************************************************************** */
+//****************************************************************************************** */
+//****************************************************************************************** */
+
+
+//****************************************************************************************** */
+//****************************************************************************************** */
 //****************************************************************************************** */
 //****************************************************************************************** */
 //****************************************************************************************** */

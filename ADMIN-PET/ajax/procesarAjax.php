@@ -17,6 +17,12 @@
             echo json_encode($res_session);
             
         }
+        elseif($data->id === "I-USUARIO-INICIO"){
+            # code...
+            $usuario = new adminController();
+            $res_usuario = $usuario->insert_usuario_inicio_Controller($data);
+            echo json_encode($res_usuario);
+        }
         elseif ($data->id === "I-ETIQUETA") {
             # code...
             $etiqueta = new adminController();

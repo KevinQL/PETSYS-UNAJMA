@@ -17,10 +17,19 @@
     
     <?php
 
-    $user = new adminController();
-    $data = $user->traerUser();
-    var_dump($data->fetch(PDO::FETCH_ASSOC));
+    $user = new stdClass;
+    $user->nombre = "kevin";
+    echo $user->nombre;
+    echo "<br>";
 
+    $user->nombre = "maria";
+    var_dump($user);
+    echo "<br>";
+
+    $user->nombre = "kev";
+    var_dump($user);
+    echo "<br>";
+    echo $user->nombre;
 
     ?>
 

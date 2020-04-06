@@ -38,7 +38,7 @@
 
                 $pagina = isset($_GET['pg']) && !empty($_GET['pg']) ? $_GET['pg'] : "login";
                 $pagina = strtolower(trim($pagina));                          
-                $arrayPaginas = ['login',"registrar_usuario"];
+                $arrayPaginas = ['login',"usuario_registro"];
 
                 if(in_array($pagina,$arrayPaginas,true)){
                     $pagina .= ".php";
@@ -125,6 +125,32 @@
             $dataModel->password = $password_hash;                        
             $dataModel->tipo_usuario = ( $this->txtres($data->radioNivelUsuariov)==="administrador" ) ? 1 : 2 ;                        
             $dataModel->estado = ( $this->txtres($data->switchEstadov) ) ? 1 : 0 ;                        
+
+            $resModel = adminModel::insert_usuario_Model($dataModel);
+            
+            return $resModel;            
+            
+        }
+
+        /**
+         * @return Array
+         * @param Object $data
+         * Funcion que insertar usuarios en la db
+         */
+        public function insert_usuario_inicio_Controller($data){  
+            $data->radioNivelUsuariov = 'usuario';
+            $data->switchEstadov = false;
+            $password_hash = self::encriptar_desencriptar($this->txtres($data->txtPasswordv),'');
+            
+            $dataModel = new stdClass; 
+
+            $dataModel->dni = $this->txtres($data->txtDniv);
+            $dataModel->nombre = $this->txtres($data->txtNombrev);
+            $dataModel->apellido = $this->txtres($data->txtApellidov);
+            $dataModel->user = $this->txtres($data->txtUsuariov);                        
+            $dataModel->password = $password_hash;                        
+            $dataModel->tipo_usuario = ( $this->txtres($data->radioNivelUsuariov)==="administrador" ) ? 1 : 2 ;                        
+            $dataModel->estado = ( $data->switchEstadov ) ? 1 : 0 ;                        
 
             $resModel = adminModel::insert_usuario_Model($dataModel);
             

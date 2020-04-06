@@ -9,7 +9,7 @@
 <body id="particles-js">
 
     <div class="container">
-        <a href="?pg=registrar_usuario">REGISTRARSE</a>
+        <a href="?pg=usuario_registro">REGISTRARSE</a>
         <h1>INICIAR SESIÓN</h1>
         <form action="" class="card p-4 w-25">
             <div class="form-group">
