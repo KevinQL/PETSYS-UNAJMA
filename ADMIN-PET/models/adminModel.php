@@ -65,7 +65,24 @@
                     password = '{$data->password}',
                     tipo_usuario = {$data->tipo_usuario},
                     estado = {$data->estado}
+                ";
+            
+            $result = mainModel::ejecutar_una_consulta($query);
+            if($result->rowCount() >= 1){
+                return ["eval"=>true,'data'=>[$data]];
+            }else{
+                return ['eval'=>false,'data'=>[]];
+            }
+        }
 
+        protected function insert_estacion_Model($data){
+            $query = "INSERT INTO estacion SET
+                    nombre = '{$data->nombre}',
+                    ubicacion = '{$data->ubicacion}',
+                    departamento = '{$data->departamento}',
+                    provincia = '{$data->provincia}',
+                    distrito = '{$data->distrito}',
+                    estado = {$data->estado}
                 ";
             $result = mainModel::ejecutar_una_consulta($query);
             if($result->rowCount() >= 1){

@@ -286,7 +286,7 @@ function btnInsertarUsuario(){
 //****************************************************************************************** */
 
 
-
+// Registro de usuarios para que sean verificados por un administrador
 //****************************************************************************************** */
 function btnInsertarUsuario_inicio(){
 
@@ -325,6 +325,122 @@ function btnInsertarUsuario_inicio(){
 //****************************************************************************************** */
 //****************************************************************************************** */
 //****************************************************************************************** */
+
+//****************************************************************************************** */
+function dataHtml_Estacion(){
+    let progresoEstacion = document.querySelector("#progresoEstacion");
+    let txtNombre = document.querySelector("#txtNombre");
+    let txtUbicacion = document.querySelector("#txtUbicacion");
+    let txtDepartamento = document.querySelector("#txtDepartamento");
+    let txtProvincia = document.querySelector("#txtProvincia");
+    let txtDistrito = document.querySelector("#txtDistrito");
+
+    return {
+        element:{progresoEstacion,txtNombre,txtUbicacion,txtDepartamento,txtProvincia,txtDistrito},
+        value:{
+            txtNombrev: txtNombre.value.trim().toLowerCase(),
+            txtUbicacionv: txtUbicacion.value.trim().toLowerCase(),
+            txtDepartamentov: txtDepartamento.value.trim().toLowerCase(),
+            txtProvinciav: txtProvincia.value.trim().toLowerCase(),
+            txtDistritov: txtDistrito.value.trim().toLowerCase(),
+            estadov:true
+        }
+    };
+}
+function evaluar_Estación(){
+    let dataHtml = dataHtml_Estacion();
+    let {progresoEstacion,txtNombre,txtUbicacion,txtDepartamento,txtProvincia,txtDistrito} = dataHtml['element'];
+    let {txtNombrev,txtUbicacionv,txtDepartamentov,txtProvinciav,txtDistritov,estadov} = dataHtml['value'];
+    let progres_val = 0;
+
+    intercambiaClases(progresoEstacion,'bg-success','bg-info',false);
+    progresoEstacion.style.width = progres_val + '%';
+
+    let arrElement = [txtNombre,txtUbicacion,txtDepartamento,txtProvincia,txtDistrito];
+    
+    let tempElmentv;
+    arrElement.forEach(element => {
+        intercambiaClases(element,'is-valid','is-invalid',false); 
+        tempElmentv = element.value.trim().toLowerCase()
+        if(tempElmentv != 0){
+            if(element.id === "txtDepartamento"){
+                let departament = ['apurimac','amazonas','áncash','arequipa','ayacucho','cajamarca','callao','cusco','huancavelica','huánuco','ica','junín','la libertad','lambayeque','lima','loreto','madre de dios','moquegua','pasco','piura','puno','san martín','tacna','tumbes','ucayali'];
+                if(departament.includes(tempElmentv)){
+                    progres_val += 100/6;
+                    intercambiaClases(element,'is-invalid','is-valid',true); 
+                }
+            } else if(element.id === "txtProvincia"){
+                if(txtDepartamentov === "apurimac"){
+                    let province = ['andahuaylas','abancay','antabamba','aymaraes','chincheros','cotabambas','grau'];
+                    if(province.includes(tempElmentv)){
+                        progres_val += 100/6;
+                        intercambiaClases(element,'is-invalid','is-valid',true); 
+                    }
+                }
+            } else if(element.id === "txtDistrito"){
+                if(txtProvinciav === "andahuaylas" && txtDepartamentov === "apurimac"){
+                    let distrite = ['andahuaylas','san jerónimo','talavera de la reina'];
+                    if(distrite.includes(tempElmentv)){
+                        progres_val += 100/6;
+                        intercambiaClases(element,'is-invalid','is-valid',true); 
+                    }
+                }
+            }
+            else{
+                progres_val += 100/6;
+                intercambiaClases(element,'is-invalid','is-valid',true);   
+            }           
+        }     
+    });
+
+    progres_val += (estadov)? 100/6 : 0;
+
+    progresoEstacion.style.width = progres_val + '%';
+    if(progres_val >= 100){
+        intercambiaClases(progresoEstacion,'bg-info','bg-success',true);
+        return true;
+    }else{        
+        return false;
+    }
+}
+function execute_Estacion(){
+    if(evaluar_Estación()){
+
+        let dataHtml = dataHtml_Estacion();
+        let {txtNombrev,txtUbicacionv,txtDepartamentov,txtProvinciav,txtDistritov,estadov} = dataHtml['value'];
+
+        ajaxKev('post',{
+            id:'I-ESTACION',
+            txtNombrev,
+            txtUbicacionv,
+            txtDepartamentov,
+            txtProvinciav,
+            txtDistritov,
+            estadov
+        }, data => {   
+            if(data.eval){
+                sweetModal('Datos procesados correctamente!','center','success',1500);            
+            }else{
+                sweetModal('Error al procesar datos!','center','error',1500);
+            }
+        });
+    }else{
+        sweetModalMin('Falta completar los campos!','top',1500,'warning');
+    }
+}
+
+//****************************************************************************************** */
+//****************************************************************************************** */
+//****************************************************************************************** */
+
+
+//****************************************************************************************** */
+
+
+//****************************************************************************************** */
+//****************************************************************************************** */
+//****************************************************************************************** */
+
 
 
 //****************************************************************************************** */

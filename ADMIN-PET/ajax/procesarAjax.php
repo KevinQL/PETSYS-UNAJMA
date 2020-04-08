@@ -35,6 +35,12 @@
             $res_usuario = $usuario->insert_usuario_Controller($data);
             echo json_encode($res_usuario);
         }
+        elseif ($data->id === "I-ESTACION") {
+            # code...
+            $estacion = new adminController();
+            $res_estacion = $estacion->insert_estacion_Controller($data);
+            echo json_encode($res_estacion);
+        }
     
         else {
             echo json_encode("ERROR!!");

@@ -23,7 +23,7 @@
 
                 //Validando niveles de seguridad. [1]:NIVEL ADMINISTRADOR
                 if($_SESSION['data']['tipo_usuario']==1){
-                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta",'adm_usuario'];
+                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta",'adm_usuario','adm_estacion'];
                 }else{
                     $arrayPaginas = ["salir_sistema","inicio","info","etiqueta"];
                 }              
@@ -158,6 +158,26 @@
             
         }
 
+
+        /**
+         * 
+         * 
+         */
+        public function insert_estacion_Controller($data){
+            
+            $dataModel = new stdClass;
+
+            $dataModel->nombre = $this->txtres($data->txtNombrev);
+            $dataModel->ubicacion = $this->txtres($data->txtUbicacionv);
+            $dataModel->departamento = $this->txtres($data->txtDepartamentov);
+            $dataModel->provincia = $this->txtres($data->txtProvinciav);
+            $dataModel->distrito = $this->txtres($data->txtDistritov);
+            $dataModel->estado = ( $data->estadov ) ? 1 : 0;
+
+            $resModel = self::insert_estacion_Model($dataModel);
+
+            return $resModel;
+        }
 
 
         //------------------------------------------------------------------------------
