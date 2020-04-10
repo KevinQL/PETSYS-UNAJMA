@@ -436,7 +436,43 @@ function execute_Estacion(){
 
 //****************************************************************************************** */
 
+function carga(n){    
+    
+    let my_html="";
+    for (let i = 0; i < n; i++) {
+        my_html +=`
+        <tr class="table-secondary">
+            <th scope="row" class="">syspett</th>
+            <td contenteditable>LAMPA DE ORO</td>
+            <td contenteditable>ANDAHUAYLAS</td>
+            <td contenteditable>APURIMAC</td>
+            <td class="text-center">
+                <button class="btn btn-warning btn-sm">ASIGNAR</button>
+            </td>
+        </tr>  
+        `;        
+    }
+    document.querySelector('#tbres-asignar').innerHTML = my_html;
+}
 
+function cargarActualizarEstacion(){
+    
+    let my_html="";
+    for (let i = 0; i < 10; i++) {
+        my_html +=`
+        <tr class="table-secondary">
+            <th scope="row" class="">syspett</th>
+            <td contenteditable>LAMPA DE ORO</td>
+            <td contenteditable>ANDAHUAYLAS</td>
+            <td contenteditable>APURIMAC</td>
+            <td class="text-center">
+                <button class="btn btn-primary btn-sm">ACTUALIZAR</button>
+            </td>
+        </tr> 
+        `;        
+    }
+    document.querySelector('#tblres-update').innerHTML = my_html;
+}
 //****************************************************************************************** */
 //****************************************************************************************** */
 //****************************************************************************************** */
