@@ -41,6 +41,12 @@
             $res_estacion = $estacion->insert_estacion_Controller($data);
             echo json_encode($res_estacion);
         }
+        elseif ($data->id === "S-ESTACION") {
+            # code...
+            $estacion_asig = new adminController();
+            $res_estacion_asig = $estacion_asig->select_estacion_Controller($data);
+            echo json_encode($res_estacion_asig);
+        }
     
         else {
             echo json_encode("ERROR!!");

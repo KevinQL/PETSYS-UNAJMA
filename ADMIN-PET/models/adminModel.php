@@ -92,6 +92,21 @@
             }
         }
 
+        protected function select_estacion_Model($data){
+            $query = "SELECT * FROM estacion WHERE nombre LIKE '%{$data->nombre}%' LIMIT 2";
+            $resultQuery = self::ejecutar_una_consulta($query);
+            if($resultQuery->rowCount() >= 1){
+                $arr_data = [];
+                while($register = $resultQuery->fetch(PDO::FETCH_ASSOC) ){
+                    $arr_data[] = $register;
+                }
+                return ['aval'=>true,'data'=>$arr_data];
+            }else{
+                return['eval'=>false,'data'=>[]];
+            }
+        }
+
+
 
         //-------------------------------------------------------------------------------
         /**

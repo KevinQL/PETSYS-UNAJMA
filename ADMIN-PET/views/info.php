@@ -17,19 +17,16 @@
     
     <?php
 
-    $user = new stdClass;
-    $user->nombre = "kevin";
-    echo $user->nombre;
-    echo "<br>";
+    $arr = [['nombre'=>'kevin'],['nombre'=>'blanky'],['nombre'=>'julio']];
 
-    $user->nombre = "maria";
-    var_dump($user);
-    echo "<br>";
+    //var_dump($arr);
+    foreach ($arr as $value) {
+        # code...
+        //var_dump($value);
+        echo "-> {$value['nombre']}";
 
-    $user->nombre = "kev";
-    var_dump($user);
-    echo "<br>";
-    echo $user->nombre;
+        echo "<br>";
+    }
 
     ?>
 

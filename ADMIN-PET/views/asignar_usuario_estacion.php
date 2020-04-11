@@ -8,7 +8,7 @@
 
     <title>ASIGNAR USUARIO-ESTACION</title>
 </head>
-<body onload="carga()">
+<body onload="execute_Estacion_Asignar()">
 
     <!-- NAVEGACION -->
     <?php
@@ -38,10 +38,10 @@
         <div class="container" >
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" data-toggle="tab" href="#asignar" onclick="carga(2)">ASIGNAR</a>
+                    <a class="nav-link active" data-toggle="tab" href="#asignar" onclick="execute_Estacion_Asignar()">ASIGNAR</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " data-toggle="tab" href="#opciones" id="btn-update-estacion" onclick="cargarActualizarEstacion()">ACTUALIZAR</a>
+                    <a class="nav-link " data-toggle="tab" href="#opciones" id="btn-update-estacion" onclick="">ACTUALIZAR</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#ayuda">AYUDA</a>
@@ -55,7 +55,7 @@
                 <div class="tab-pane fade active show" id="asignar">
                     <div class="py-3">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-lg" placeholder="BUSCAR NOMBRE DE ESTACIÓN...">
+                            <input type="text" class="form-control form-control-lg" id="txtbuscarEstacion" placeholder="BUSCAR NOMBRE DE ESTACIÓN..." onkeyup="execute_Estacion_Asignar()">
                         </div>
                     </div>
 
@@ -70,7 +70,7 @@
                                     <th scope="col" class="text-center">OPCIONES</th>
                                 </tr>
                             </thead>
-                            <tbody class="table-hover text-uppercase" id="tbres-asignar">
+                            <tbody class="table-hover text-uppercase" id="tblEstacion">
                                     <tr class="table-secondary">
                                         <th scope="row" class="">syspett</th>
                                         <td contenteditable>LAMPA DE ORO</td>

@@ -435,26 +435,64 @@ function execute_Estacion(){
 
 
 //****************************************************************************************** */
+function dataHtml_Estacion_Asignar(){
+    let txtbuscar = document.querySelector("#txtbuscarEstacion");
+    let tblEstacion = document.querySelector("#tblEstacion");
 
-function carga(n){    
-    
-    let my_html="";
-    for (let i = 0; i < n; i++) {
-        my_html +=`
-        <tr class="table-secondary">
-            <th scope="row" class="">syspett</th>
-            <td contenteditable>LAMPA DE ORO</td>
-            <td contenteditable>ANDAHUAYLAS</td>
-            <td contenteditable>APURIMAC</td>
-            <td class="text-center">
-                <button class="btn btn-warning btn-sm">ASIGNAR</button>
-            </td>
-        </tr>  
-        `;        
-    }
-    document.querySelector('#tbres-asignar').innerHTML = my_html;
+    return {
+        element : {txtbuscar, tblEstacion},
+        value : {
+            txtbuscarv:txtbuscar.value.trim().toLowerCase()
+        }
+    };
 }
+function evaluar_Estación_Asignar(){
+    let dataHtml = dataHtml_Estacion_Asignar();
+    let {txtbuscarv} = dataHtml['value'];
 
+    if( txtbuscarv.length != 0 ){
+        return true;
+    }else{
+        return false;
+    }
+
+}
+function execute_Estacion_Asignar(){    
+ 
+    let dataHtml = dataHtml_Estacion_Asignar();
+    let {tblEstacion} = dataHtml['element'];
+    let {txtbuscarv} = dataHtml['value'];
+    
+    if(!evaluar_Estación_Asignar()){
+        txtbuscarv="";
+    }
+
+    ajaxKev('POST',{
+        id:'S-ESTACION',
+        txtbuscarv
+    }, data => {
+        // codigo que se ejecuta después de realizar la consulta en la db
+        console.log(data);
+        let my_html="";
+        data['data'].forEach(element => {
+            my_html +=`
+            <tr class="table-secondary">
+                <th scope="row" class="">${element.nombre}</th>
+                <td contenteditable>${element.ubicacion}</td>
+                <td contenteditable>${element.provincia}</td>
+                <td contenteditable>${element.departamento}</td>
+                <td class="text-center">
+                    <button class="btn btn-warning btn-sm">ASIGNAR</button>
+                </td>
+            </tr>  
+            `;   
+            
+        });
+        tblEstacion.innerHTML = my_html;
+    })
+
+}
+//---------------------
 function cargarActualizarEstacion(){
     
     let my_html="";

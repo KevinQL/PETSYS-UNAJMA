@@ -179,6 +179,19 @@
             return $resModel;
         }
 
+        /**
+         * 
+         */
+        public function select_estacion_Controller($data){
+            $dataModel = new stdClass;
+
+            $dataModel->nombre = $this->txtres($data->txtbuscarv);
+
+            $resModel = self::select_estacion_Model($dataModel);
+
+            return $resModel;
+        }
+
 
         //------------------------------------------------------------------------------
 
