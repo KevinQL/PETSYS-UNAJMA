@@ -192,7 +192,32 @@
             return $resModel;
         }
 
+        /**
+         * 
+         */
+        public function select_estacion_usuario_Controller($data){
+            $dataModel = new stdClass;
 
+            $dataModel->dni = $data->txtDniv;
+
+            $resModel = self::select_estacion_usuario_Model($dataModel);
+
+            return $resModel;
+        }
+        /**
+         * 
+         */
+        public function insert_estacion_usuario_Controller($data){
+            $dataModel = new stdClass;
+
+            $dataModel->usuario_id = $data->id_userv;
+            $dataModel->estacion_idestacion = $data->id_stationv;
+            
+
+            $resModel = self::insert_estacion_usuario_Model($dataModel);
+
+            return $resModel;
+        }
         //------------------------------------------------------------------------------
 
 

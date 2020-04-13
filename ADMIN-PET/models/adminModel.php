@@ -93,7 +93,12 @@
         }
 
         protected function select_estacion_Model($data){
-            $query = "SELECT * FROM estacion WHERE nombre LIKE '%{$data->nombre}%' LIMIT 2";
+            $query= "SELECT e.* FROM usuario_tiene_estacion ue 
+                        RIGHT JOIN estacion e on e.idestacion = ue.estacion_idestacion 
+                        WHERE e.estado=1 AND e.nombre LIKE '%{$data->nombre}%' AND ue.estacion_idestacion IS NULL
+                        LIMIT 7
+            ";
+            //$query = "SELECT * FROM estacion WHERE nombre LIKE '%{$data->nombre}%' LIMIT 7";
             $resultQuery = self::ejecutar_una_consulta($query);
             if($resultQuery->rowCount() >= 1){
                 $arr_data = [];
@@ -106,6 +111,24 @@
             }
         }
 
+        protected function select_estacion_usuario_Model($data){
+            $query = "SELECT id,nombre,apellido FROM usuario WHERE dni='{$data->dni}' AND estado=1";
+            $resquery = self::ejecutar_una_consulta($query);
+            if($resquery->rowCount() >= 1){
+                return ['eval'=>true,'data'=> $resquery->fetch(PDO::FETCH_ASSOC)];
+            }   
+            return ['eval'=>false,'data'=>[]];         
+        }
+
+        protected function insert_estacion_usuario_Model($data){
+            $query = "INSERT usuario_tiene_estacion SET 
+                        usuario_id='{$data->usuario_id}', estacion_idestacion='{$data->estacion_idestacion}'";
+            $resquery = self::ejecutar_una_consulta($query);
+            if($resquery->rowCount() >= 1){
+                return ['eval'=>true,'data'=>[$data]];
+            }   
+            return ['eval'=>false,'data'=>[]];     
+        }
 
 
         //-------------------------------------------------------------------------------

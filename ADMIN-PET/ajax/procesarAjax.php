@@ -47,7 +47,18 @@
             $res_estacion_asig = $estacion_asig->select_estacion_Controller($data);
             echo json_encode($res_estacion_asig);
         }
-    
+        elseif ($data->id === "S-USUARIO-ESTACION") {
+            # code...
+            $estacion_asig = new adminController();
+            $res_estacion_asig = $estacion_asig->select_estacion_usuario_Controller($data);
+            echo json_encode($res_estacion_asig);
+        }
+        elseif ($data->id === "I-ESTACION-USUARIO") {
+            # code...
+            $estacion_asig = new adminController();
+            $res_estacion_asig = $estacion_asig->insert_estacion_usuario_Controller($data);
+            echo json_encode($res_estacion_asig);
+        }
         else {
             echo json_encode("ERROR!!");
         }

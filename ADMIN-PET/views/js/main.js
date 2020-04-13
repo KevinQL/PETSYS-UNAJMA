@@ -457,6 +457,7 @@ function evaluar_Estación_Asignar(){
     }
 
 }
+//puede llamarse a la función si ninguna dependencia de la fn-evaluacion. 
 function execute_Estacion_Asignar(){    
  
     let dataHtml = dataHtml_Estacion_Asignar();
@@ -481,8 +482,8 @@ function execute_Estacion_Asignar(){
                 <td contenteditable>${element.ubicacion}</td>
                 <td contenteditable>${element.provincia}</td>
                 <td contenteditable>${element.departamento}</td>
-                <td class="text-center">
-                    <button class="btn btn-warning btn-sm">ASIGNAR</button>
+                <td class="text-center" >
+                    <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal" onclick="id_estation(${element.idestacion})">ASIGNAR</button>
                 </td>
             </tr>  
             `;   
@@ -493,24 +494,141 @@ function execute_Estacion_Asignar(){
 
 }
 //---------------------
-function cargarActualizarEstacion(){
-    
-    let my_html="";
-    for (let i = 0; i < 10; i++) {
-        my_html +=`
-        <tr class="table-secondary">
-            <th scope="row" class="">syspett</th>
-            <td contenteditable>LAMPA DE ORO</td>
-            <td contenteditable>ANDAHUAYLAS</td>
-            <td contenteditable>APURIMAC</td>
-            <td class="text-center">
-                <button class="btn btn-primary btn-sm">ACTUALIZAR</button>
-            </td>
-        </tr> 
-        `;        
-    }
-    document.querySelector('#tblres-update').innerHTML = my_html;
+function dataHtml_Estacion_usuario(){
+    let txtDni = document.querySelector("#aueM_txtDni");
+    let txtNombre = document.querySelector("#aueM_txtNombre");
+    let txtApellido = document.querySelector("#aueM_txtApellido");
+    let btnAsignar = document.querySelector("#aueM_btnAsignar");
+    let id_station = document.querySelector("#aueM_id_station");
+    let id_user = document.querySelector("#aueM_id_user");
+    let btncloseModal = document.querySelector('#cerrarModal');
+
+    return {
+        element : {txtDni, txtNombre, txtApellido, btnAsignar, id_station, id_user, btncloseModal},
+        value : {
+            txtDniv: txtDni.value.trim(),
+            txtNombrev: txtNombre.value.trim().toLowerCase(),
+            txtApellidov: txtApellido.value.trim().toLowerCase(),
+            id_stationv: id_station.value.trim(),
+            id_userv: id_user.value.trim()
+        }
+    };
 }
+
+function evaluar_Estacion_usuario(){
+    let dataHtml = dataHtml_Estacion_usuario();
+    let {txtDniv} = dataHtml['value'];
+    let {txtDni, txtNombre, txtApellido} = dataHtml['element'];
+
+    if(!isNaN(txtDniv) && txtDniv.length == 8){        
+        intercambiaClases(txtDni,'is-invalid','is-valid',false);        
+        return true;
+    }else{
+        if(isNaN(txtDniv)){
+            sweetModalMin('Ingrese un Dni!',"top",1000,'warning')
+        }        
+        intercambiaClases(txtDni,'is-valid','is-invalid',false);
+        txtNombre.value = "";
+        txtApellido.value = "";
+        return false;
+    }
+}
+function execute_obtener_Usuario_Est(){
+    //funcion que trae usuario      
+    if(evaluar_Estacion_usuario()){
+        let dataHtml = dataHtml_Estacion_usuario()
+        let {txtDniv} = dataHtml['value'];
+        let {txtNombre, txtApellido, id_user} = dataHtml['element'];
+        
+        ajaxKev('POST',{
+            id:'S-USUARIO-ESTACION',
+            txtDniv
+        }, data=>{     
+            console.log(data)   
+            if(data.eval){
+                txtNombre.value = data.data.nombre;
+                txtApellido.value = data.data.apellido;
+                id_user.value = data.data.id;
+                sweetModalMin('Usuario Encontrado!',"top",1000,'success')
+            }else{
+                txtNombre.value = "";
+                txtApellido.value = "";
+                sweetModalMin('No se encontró usuario!',"top",1000,'info')
+            }
+        })
+    }
+}
+//obtiene el id de la estación seleccionada. Esto ocurre cuando le dan click al btn de ASIGNAR
+function id_estation($id_station){
+    //add id_station in the modal for every buttom
+    let dataHtml = dataHtml_Estacion_usuario();
+    let {txtNombre,txtApellido,txtDni,id_station,id_user} = dataHtml['element'];
+    id_station.value = $id_station;
+    //clean the inputs. Limpia el formulario del modal
+    id_user.value="";
+
+    txtNombre.value = "";
+    txtApellido.value = "";
+    txtDni.value = "";
+    intercambiaClases(txtDni,'is-invalid','',false);
+    intercambiaClases(txtDni,'is-valid','',false);
+}
+//btn enviar guardar asignacion
+function execute_Usuario_Estacion(){
+
+    if(evaluar_Estacion_usuario()){
+        let dataHtml = dataHtml_Estacion_usuario();
+        let {btncloseModal} = dataHtml['element'];
+        let {txtNombrev,txtApellidov,id_stationv,id_userv} = dataHtml['value'];
+
+        //evaluar que nombre y apellido estén vacios para INSERTAR
+        if(txtNombrev.length != 0 && txtApellidov.length != 0 && id_stationv.length != 0 && id_userv.length != 0){
+            ajaxKev('POST',{
+                id:'I-ESTACION-USUARIO',
+                id_stationv,
+                id_userv
+            },data=>{
+                if(data.eval){
+                    execute_Estacion_Asignar();
+                    sweetModal('Se proceso la petición!','center','success',1500)
+                    setTimeout(()=>{
+                        btncloseModal.click();
+                    },1000);
+                }else{
+                    sweetModalMin('No se pudo procesar la petición!','top-end',1500,'error');
+                }
+            });            
+        }
+    }else{
+        sweetModalMin('debe completar los datos!','top-end',1500,'warning');
+    }
+    /*
+    if(evaluar_Estacion_usuario()){       
+        let dataHtml = dataHtml_Estacion_usuario()
+        let {txtDni,txtNombre,txtApellido} = dataHtml['element'];        
+        let {id_user, id_estation} = dataHtml['value'];        
+        
+        ajaxKev('POST',{
+            id:'I-ESTACION-USUARIO',
+            id_user,
+            id_estation
+        }, data=>{
+            console.log(data);
+            if(data.eval){                
+                txtDni.value="";
+                txtNombre.value="";
+                txtApellido.value="";
+                //cerrar el modal
+            }else{
+                sweetModalMin('No se encontró usuario!',"top",1000,'info')
+            }
+        })
+    }else{        
+        sweetModalMin('Complete los campos!',"top",1000,'warning')
+    }
+    */
+}
+
 //****************************************************************************************** */
 //****************************************************************************************** */
 //****************************************************************************************** */
@@ -587,7 +705,7 @@ function sweetModalMin(mensaje,position,timer,icon,){
  */
 function intercambiaClases(element, removeClass, addClass, existe){
     if(element.classList.contains(removeClass) && !element.classList.contains(addClass) && existe){
-        element.classList.remove(removeClass);
+        if(removeClass.trim() != "")element.classList.remove(removeClass);
         if(addClass.trim() != "")element.classList.add(addClass);        
     }else{
         if(!existe){

@@ -55,7 +55,7 @@
                 <div class="tab-pane fade active show" id="asignar">
                     <div class="py-3">
                         <div class="form-group">
-                            <input type="text" class="form-control form-control-lg" id="txtbuscarEstacion" placeholder="BUSCAR NOMBRE DE ESTACIÓN..." onkeyup="execute_Estacion_Asignar()">
+                            <input type="text" class="form-control form-control-lg text-uppercase" id="txtbuscarEstacion" placeholder="BUSCAR NOMBRE DE ESTACIÓN..." onkeyup="execute_Estacion_Asignar()">
                         </div>
                     </div>
 
@@ -83,7 +83,39 @@
                             </tbody>
                         </table> 
                     </div>
-                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">BUSCAR USUARIO PARA ASIGNAR</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cerrarModal">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <input type="text" id="aueM_txtDni" class="form-control text-uppercase" onkeyup="execute_obtener_Usuario_Est()" placeholder="INGRESE DNI USUARIO">                                    
+                                </div>
+                                <div class="form-group">
+                                    <label for="nombre">NOMBRE:</label>
+                                    <input type="text" id="aueM_txtNombre" class="form-control text-uppercase text-white" placeholder="DATOS PERSONALES..." disabled>
+                                    <label for="apellido">APELLIDO:</label>
+                                    <input type="text" id="aueM_txtApellido" class="form-control text-uppercase text-white" placeholder="DATOS PERSONALES..." disabled>
+                                </div>
+                                <div class="form-group text-center pt-4">
+                                    <button id="aueM_btnAsignar" onclick="execute_Usuario_Estacion()" class="btn btn-warning btn-lg" >ASIGNAR A ESTACIÓN</button>                                    
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="hidden" id="aueM_id_station">
+                                <input type="hidden" id="aueM_id_user">
+                                <span><small>Hola mundo</small></span>
+                            </div>
+                            </div>
+                        </div>
+                    </div>                    
+                    <!--FIN MODAL-->           
                     <!---->
                                                            
                 </div>
