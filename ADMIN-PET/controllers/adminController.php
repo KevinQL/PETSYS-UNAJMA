@@ -236,9 +236,9 @@
          * @return {string}
          * 
          * Limpia los espacios al principio y alfinal y luego lo convierte a minuscula
-         */
+        */
         private function txtres($variable){
-            return strtolower(trim($variable));
+            return mb_strtolower(trim($variable),'UTF-8');            
         }
 
 

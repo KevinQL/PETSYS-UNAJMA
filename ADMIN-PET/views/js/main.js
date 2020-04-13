@@ -347,7 +347,7 @@ function dataHtml_Estacion(){
         }
     };
 }
-function evaluar_Estación(){
+function evaluar_Estacion(){
     let dataHtml = dataHtml_Estacion();
     let {progresoEstacion,txtNombre,txtUbicacion,txtDepartamento,txtProvincia,txtDistrito} = dataHtml['element'];
     let {txtNombrev,txtUbicacionv,txtDepartamentov,txtProvinciav,txtDistritov,estadov} = dataHtml['value'];
@@ -404,7 +404,7 @@ function evaluar_Estación(){
     }
 }
 function execute_Estacion(){
-    if(evaluar_Estación()){
+    if(evaluar_Estacion()){
 
         let dataHtml = dataHtml_Estacion();
         let {txtNombrev,txtUbicacionv,txtDepartamentov,txtProvinciav,txtDistritov,estadov} = dataHtml['value'];
@@ -418,6 +418,7 @@ function execute_Estacion(){
             txtDistritov,
             estadov
         }, data => {   
+            console.log(data);
             if(data.eval){
                 sweetModal('Datos procesados correctamente!','center','success',1500);            
             }else{

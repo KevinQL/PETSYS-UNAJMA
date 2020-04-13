@@ -64,7 +64,7 @@
                             <div class="row">                            
                                 <div class="form-group col-md-12">
                                     <label class="form-control-label d-block text-left" for="txtNombre">Nombre Estación</label>    
-                                    <input class="form-control text-uppercase is-invalid" type="text" placeholder="INGRESE NOMBRE ESTACIÓN" id="txtNombre" onkeyup="evaluar_Estación()">
+                                    <input class="form-control text-uppercase is-invalid" type="text" placeholder="INGRESE NOMBRE ESTACIÓN" id="txtNombre" onkeyup="evaluar_Estacion()">
                                     <div class="valid-feedback text-left">Bien! No tienes errores.</div>
                                     <div class="invalid-feedback text-left">debe rellenar este campo con un nombre!</div>
                                 </div>   
@@ -72,13 +72,13 @@
                             <div class="row">                            
                                 <div class="form-group col-md-7">
                                     <label class="form-control-label" for="txtUbicacion">Ubicación Estación</label>    
-                                    <input class="form-control text-uppercase is-invalid" type="text" placeholder="INGRESE UBICACIÓN O DIRECCION" id="txtUbicacion" onkeyup="evaluar_Estación()">
+                                    <input class="form-control text-uppercase is-invalid" type="text" placeholder="INGRESE UBICACIÓN O DIRECCION" id="txtUbicacion" onkeyup="evaluar_Estacion()">
                                     <div class="valid-feedback text-left">Bien! No tienes errores.</div>
                                     <div class="invalid-feedback text-left">debe rellenar este campo con un nombre!</div>
                                 </div>  
                                 <div class="form-group col-md-5">
                                     <label class="form-control-label" for="txtDepartamento">Departamento Estación</label>    
-                                    <input class="form-control text-uppercase is-invalid" type="text" placeholder="INGRESE DEPARTAMENTO" id="txtDepartamento" onkeyup="evaluar_Estación()">
+                                    <input class="form-control text-uppercase is-invalid" type="text" placeholder="INGRESE DEPARTAMENTO" id="txtDepartamento" onkeyup="evaluar_Estacion()">
                                     <div class="valid-feedback">Bien! No tienes errores.</div>
                                     <div class="invalid-feedback">debe rellenar este campo con un nombre!</div>
                                 </div>    
@@ -86,13 +86,13 @@
                             <div class="row">                            
                                 <div class="form-group col-md-7">
                                     <label class="form-control-label" for="txtProvincia">Provincia Estación</label>    
-                                    <input class="form-control text-uppercase is-invalid" type="text" placeholder="INGRESE PROVINCIA" id="txtProvincia" onkeyup="evaluar_Estación()">
+                                    <input class="form-control text-uppercase is-invalid" type="text" placeholder="INGRESE PROVINCIA" id="txtProvincia" onkeyup="evaluar_Estacion()">
                                     <div class="valid-feedback text-left">Bien! No tienes errores.</div>
                                     <div class="invalid-feedback text-left">debe rellenar este campo con un nombre!</div>
                                 </div>  
                                 <div class="form-group col-md-5">
                                     <label class="form-control-label" for="txtDistrito">Distrito Estación</label>    
-                                    <input class="form-control text-uppercase is-invalid" type="text" placeholder="INGRESE DISTRITO" id="txtDistrito" onkeyup="evaluar_Estación()">
+                                    <input class="form-control text-uppercase is-invalid" type="text" placeholder="INGRESE DISTRITO" id="txtDistrito" onkeyup="evaluar_Estacion()">
                                     <div class="valid-feedback">Bien! No tienes errores.</div>
                                     <div class="invalid-feedback">debe rellenar este campo con un nombre!</div>
                                 </div>    
