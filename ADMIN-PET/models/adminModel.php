@@ -130,6 +130,34 @@
             return ['eval'=>false,'data'=>[]];     
         }
 
+        protected function select_estacion_to_update_Model($data){
+            $query = "SELECT u.id, u.dni, u.nombre as nombre_usuario, u.apellido, e.* FROM estacion e 
+                        INNER JOIN usuario_tiene_estacion ue
+                        ON e.idestacion = ue.estacion_idestacion 
+                        INNER JOIN usuario u 
+                        ON u.id = ue.usuario_id
+                        WHERE e.nombre LIKE '%{$data->nombre}%'";
+
+            $resquery = self::ejecutar_una_consulta($query);
+            if($resquery->rowCount() >= 1){
+                $arr_data = [];
+                while($estacion = $resquery->fetch(PDO::FETCH_ASSOC)){
+                    $arr_data[] = $estacion;
+                }
+                return ['eval'=>true,'data'=>$arr_data];
+            }   
+            return ['eval'=>false,'data'=>[]];    
+        }
+
+
+        protected function update_user_station_Model($data){
+            $query = "UPDATE usuario_tiene_estacion SET usuario_id={$data->usuario_id} WHERE estacion_idestacion={$data->estacion_idestacion}";
+            $resquery = self::ejecutar_una_consulta($query);
+            if($resquery->rowCount() >= 1){
+                return ['eval'=>true,'data'=>$data];
+            }
+            return ['eval'=>false,'data'=>$data];
+        }
 
         //-------------------------------------------------------------------------------
         /**

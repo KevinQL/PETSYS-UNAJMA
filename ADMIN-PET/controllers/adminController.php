@@ -218,6 +218,35 @@
 
             return $resModel;
         }
+
+        /**
+         * 
+         */
+        public function select_estacion_to_update_Controller($data){
+            $dataModel = new stdClass;
+
+            $dataModel->nombre = $data->txtBuscarv;
+
+            $resModel = self::select_estacion_to_update_Model($dataModel);
+
+            return $resModel;
+        }
+
+        /**
+         * 
+         */
+        public function update_user_station_Controller($data){
+            $dataModel = new stdClass;
+
+            $dataModel->usuario_id = $data->id_userv;
+            $dataModel->estacion_idestacion = $data->id_stationv;
+
+            $resModel = self::update_user_station_Model($dataModel);
+
+            return $resModel;
+        }
+
+
         //------------------------------------------------------------------------------
 
 

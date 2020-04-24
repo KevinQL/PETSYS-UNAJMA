@@ -480,9 +480,9 @@ function execute_Estacion_Asignar(){
             my_html +=`
             <tr class="table-secondary">
                 <th scope="row" class="">${element.nombre}</th>
-                <td contenteditable>${element.ubicacion}</td>
-                <td contenteditable>${element.provincia}</td>
-                <td contenteditable>${element.departamento}</td>
+                <td>${element.ubicacion}</td>
+                <td>${element.provincia}</td>
+                <td>${element.departamento}</td>
                 <td class="text-center" >
                     <button class="btn btn-warning btn-sm" data-toggle="modal" data-target="#exampleModal" onclick="id_estation(${element.idestacion})">ASIGNAR</button>
                 </td>
@@ -534,6 +534,7 @@ function evaluar_Estacion_usuario(){
         return false;
     }
 }
+
 function execute_obtener_Usuario_Est(){
     //funcion que trae usuario      
     if(evaluar_Estacion_usuario()){
@@ -603,37 +604,203 @@ function execute_Usuario_Estacion(){
     }else{
         sweetModalMin('debe completar los datos!','top-end',1500,'warning');
     }
-    /*
-    if(evaluar_Estacion_usuario()){       
-        let dataHtml = dataHtml_Estacion_usuario()
-        let {txtDni,txtNombre,txtApellido} = dataHtml['element'];        
-        let {id_user, id_estation} = dataHtml['value'];        
-        
-        ajaxKev('POST',{
-            id:'I-ESTACION-USUARIO',
-            id_user,
-            id_estation
-        }, data=>{
-            console.log(data);
-            if(data.eval){                
-                txtDni.value="";
-                txtNombre.value="";
-                txtApellido.value="";
-                //cerrar el modal
-            }else{
-                sweetModalMin('No se encontró usuario!',"top",1000,'info')
-            }
-        })
-    }else{        
-        sweetModalMin('Complete los campos!',"top",1000,'warning')
-    }
-    */
+
 }
 
 //****************************************************************************************** */
 //****************************************************************************************** */
 //****************************************************************************************** */
 
+function dataHtml_update_Estacion_Asignar(){
+    let txtBuscar = document.querySelector("#txtupdate-estacion");
+    let tblres = document.querySelector("#tblres-update");
+    
+    let closeModal = document.querySelector("#UPD_cerrarModal");
+
+    let txtDni = document.querySelector("#UPD_aueM_txtDni");
+    let txtNombre = document.querySelector("#UPD_aueM_txtNombre");
+    let txtApellido = document.querySelector("#UPD_aueM_txtApellido");
+    let id_station = document.querySelector("#UPD_aueM_id_station");
+    let id_user = document.querySelector("#UPD_aueM_id_user");
+
+    let id_user_select = document.querySelector("#UPD_aueM_id_user_select");
+
+    return {
+        element:{ txtBuscar, tblres, txtDni, txtNombre, txtApellido, id_station, id_user, closeModal, id_user_select },
+        value:{
+            txtBuscarv: txtBuscar.value.trim().toLowerCase(),
+            txtDniv: txtDni.value.trim().toLowerCase(),
+            txtNombrev: txtNombre.value.trim().toLowerCase(),
+            txtApellidov: txtApellido.value.trim().toLowerCase(),
+            id_stationv: id_station.value.trim().toLowerCase(),
+            id_userv: id_user.value.trim().toLowerCase(),
+            id_user_selectv: id_user_select.value.trim().toLowerCase() 
+        }
+    }
+}
+
+/**
+ * Trae los rgstros de las estaciones que ya están configurados con un usuario
+ */
+function execute_update_Estacion_Asignar(){
+    
+    let dataHtml = dataHtml_update_Estacion_Asignar();
+    let { tblres } = dataHtml['element'];
+    let { txtBuscarv } = dataHtml['value'];
+
+    ajaxKev('POST',{
+        id:'S-ESTACION-CONFIG',
+        txtBuscarv
+    },
+    data=>{        
+        let my_html = ``;        
+        if(data.eval){
+            data.data.forEach(element => {
+                my_html += `
+                    <tr class="table-secondary" id="regis-${element.idestacion}">
+                        <th scope="row" class="modif-name" contenteditable>${element.nombre}</th>
+                        <td class="modif-ubicacion" contenteditable>${element.ubicacion}</td>
+                        <td class="bg-warning">${element.nombre_usuario} ${element.apellido}</td>
+                        <td>${element.provincia}</td>
+                        <td class="text-center">
+                            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#updateUEModal" onclick="upd_id_estation(${element.idestacion},${element.id})">ACTUALIZAR</button>                                            
+                        </td>
+                    </tr>                
+                `;
+            });
+        }
+        
+        tblres.innerHTML = my_html;
+
+    })
+}
+
+//Imprime el id de la stacion y limpia los inputs después de hacer click en los botnes
+function upd_id_estation(id, id_user_s){
+    let dataHtml = dataHtml_update_Estacion_Asignar();
+    let {id_station,id_user, txtNombre, txtApellido, txtDni, id_user_select} = dataHtml['element'];
+    id_station.value = id; // Id de la Stación seleccionado
+    id_user_select.value = id_user_s; // imprime el id del usuario que ya estaba asignado a la estación
+    //clean the inputs xd. Limpia el formulario del modal
+    cleanInputs( [id_user, txtNombre, txtApellido, txtDni] )
+    intercambiaClases(txtDni,'is-invalid','',false);
+    intercambiaClases(txtDni,'is-valid','',false);
+}
+
+//Evalua el input buscar usuario por dni
+function evaluar_update_Estacion_usuario(){
+    let dataHtml = dataHtml_update_Estacion_Asignar();
+    let {txtDniv} = dataHtml['value'];
+    let {txtDni, txtNombre, txtApellido, id_user} = dataHtml['element'];
+
+    if(!isNaN(txtDniv) && txtDniv.length == 8){        
+        intercambiaClases(txtDni,'is-invalid','is-valid',false);   
+        return true;
+    }else{
+        if(isNaN(txtDniv)){
+            sweetModalMin('Ingrese un Dni!',"top",1000,'warning')
+        }        
+        intercambiaClases(txtDni,'is-valid','is-invalid',false);
+        cleanInputs( [txtNombre, txtApellido, id_user] )
+        return false;
+    }
+}
+
+//Obtiene el usuario del dni introducido en el buscador
+function execute_upd_obtener_Usuario_Est(){
+    if(evaluar_update_Estacion_usuario()){
+        let dataHtml = dataHtml_update_Estacion_Asignar();
+
+        let {txtDniv, id_userv, id_user_selectv} = dataHtml['value'];
+        let {txtNombre, txtApellido, id_user} = dataHtml['element'];
+        
+        ajaxKev('POST',{
+            id:'S-USUARIO-ESTACION',
+            txtDniv
+        }, data=>{     
+            if(data.eval){
+                txtNombre.value = data.data.nombre;               
+                txtApellido.value = data.data.apellido;
+                id_user.value = data.data.id;
+                //evalua que el usuario solicitado sea diferente al registrado
+                if(id_user_selectv == data.data.id){
+                    sweetModalMin('El usuario ya está registrado!',"top",1000,'warning')                    
+                }
+            }else{
+                cleanInputs([txtNombre,txtApellido,id_user])
+                sweetModalMin('No se encontró usuario!',"top",1000,'info')
+            }
+        })
+
+    }
+
+}
+
+//Actualiza el usuario para la estación
+function execute_upd_Usuario_Estacion(){
+
+    let dataHtml = dataHtml_update_Estacion_Asignar();
+    let {closeModal} = dataHtml['element'];
+
+    if(evaluar_update_Estacion_usuario()){
+        let {id_userv, id_stationv} = dataHtml['value'];
+        
+        if(id_userv.length != 0 && id_stationv.length != 0){
+
+            let data = {id:'UPDATE_USER_STATION', id_userv, id_stationv};
+            let url = './ajax/procesarAjax.php';
+
+            fetchKev('POST',
+                data,
+                ( data ) => {
+
+                    if(data.eval){
+
+                        sweetModal('Usuario Actualizado!','center','success',1500);
+                        execute_update_Estacion_Asignar(); //actualizar tabla con el nuevo usuario
+                        // Cerrar modal                
+                        setTimeout(()=>{
+                            closeModal.click();
+                            sweetModalMin('Se proceso correctamente!','bottom-end',5000,'success');
+                        },1500);
+
+                    }else{
+                        sweetModalMin('Ya registrado!','top',1500,'warning');
+                    }
+                },
+                url
+            );
+        }else{
+            sweetModalMin('Usuario no seleccionado!','center',1500,'warning')
+        }
+    }else{
+        sweetModalMin('No se ingreso Datos!','bottom-end',1500,'error')
+        setTimeout(()=>{
+            closeModal.click();
+        },1500);
+    }    
+}
+
+//PRUEBA PARA REALIZAR ACTUALIZACIONES POR FILAS-REGISTROS--------
+function estudiarEtiqueta($this,id){
+    let mod_nombre = $this.parentNode.parentNode.querySelector(".modif-name").innerText;
+    let mod_ubicacion = $this.parentNode.parentNode.querySelector(".modif-ubicacion").innerText;
+    console.log(mod_nombre,mod_ubicacion);
+
+    /*
+    // 1. solucion alternativa para obtener los datos a actualizar 
+    // 2. recibo el id del regsitro, luego hago ubico el regiatro con el apoyo del id, para acceder a los datos a modificar
+
+    let idElement = "#regis-"+id;
+    let tr = document.querySelector(idElement);
+
+    let dta_name = tr.querySelector(".modif-name").innerText;
+    let dta_adress = tr.querySelector(".modif-ubicacion").innerText;
+
+    console.log(dta_name,dta_adress);
+    */
+
+}
 
 
 //****************************************************************************************** */
@@ -641,6 +808,19 @@ function execute_Usuario_Estacion(){
 //****************************************************************************************** */
 //****************************************************************************************** */
 //****************************************************************************************** */
+
+/**
+ * Elementos inputs para ser limpiados.
+ * @param {Array} arrElement 
+ */
+//funcion para limpiar
+function cleanInputs(arrElement){
+    arrElement.forEach( element => {
+        element.value = "";
+    })
+}
+
+
 
 /**
  * 
@@ -697,9 +877,9 @@ function sweetModalMin(mensaje,position,timer,icon,){
 
 /**
  * 
- * @param {Object} element 
- * @param {String} removeClass 
- * @param {String} addClass 
+ * @param {Object} element Etiqueta HTML. Podría  ser un 'input', o cualquier etiqueta, pero como objeto, osea un (documen.querySelector(id);)
+ * @param {String} removeClass Nombre de la clase que se quiere eliminar, quitar de la Etiqueta.
+ * @param {String} addClass Nombre de la clase que se quiere agregar, o concatenar al conjunto de clases existentes en la Etiqueta.
  * 
  * Intercambia una clase una por otra
  * en el intento de que no exista las calses que se quiere eliminar y agregar, se intará agregar una clase
@@ -728,16 +908,16 @@ function intercambiaClases(element, removeClass, addClass, existe){
 
 /**
  * 
- * @param {String} metodo 
- * @param {Object} datajson 
- * @param {Function} bloqueCode 
+ * @param {String} metodo Que puede ser GET o POST / o también se puede dejar vacio, valor por defaul POST
+ * @param {Object} datajson Los datos que se enviarán al servidor
+ * @param {Function} bloqueCode Función que procesará los datos que retornan del servidor
  * 
  * Función ajax modificado 
  */
 function ajaxKev(metodo, datajson, bloqueCode){
 
     let method = metodo.toUpperCase().trim();
-    let envget,envpost;
+    let envget,envpost; 
     if(method === "POST"){
         envpost = "data=" + JSON.stringify(datajson);
         envget = "";
@@ -763,4 +943,56 @@ function ajaxKev(metodo, datajson, bloqueCode){
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
     xhr.send(envpost);
+}
+
+
+
+//FETCH MODIFICADOS
+//-----------------------------
+
+/**
+ * 
+ * @param {String} meth Que puede ser 'POST' o 'GET'
+ * @param {Object} jsonData Datos que se enviarán al servidor para que sena procesados
+ * @param {Function} fnRquest Aquí se tratarán los datos devueltos del servidor
+ */
+function fetchKev(meth, jsonData, fnRquest, urlProcess){
+    let formData = new FormData();
+
+    formData.append("data", JSON.stringify(jsonData));
+
+    fetch(urlProcess,{
+        method: meth,
+        body: formData
+    }).then( data => data.json())
+    .then(data => {
+        fnRquest(data);
+    })
+}
+
+
+
+/**
+ * 
+ * @param {String} meth Que puede ser 'POST' o 'GET'
+ * @param {Object} jsonData Datos que se enviarán al servidor para que sena procesados
+ * @param {Object} jsonFile Datos de los archivos de cualquier tipo: png, .sql, .pdf... Etc
+ * @param {Function} fnRquest Aquí se tratarán los datos devueltos del servidor
+ */
+function fetchFileKev(meth, jsonData, jsonFile, fnRquest){
+    let formData = new FormData();
+
+    for(nameIN in jsonFile){
+        formData.append(nameIN, jsonFile[nameIN]);
+    }    
+    
+    formData.append("data", JSON.stringify(jsonData));
+
+    fetch('./ajax/pruebaAjax.php',{
+        method: meth,
+        body: formData
+    }).then( data => data.json())
+    .then(data => {
+        fnRquest(data);
+    })
 }
