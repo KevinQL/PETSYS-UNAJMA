@@ -15,7 +15,7 @@
     <!-- ml5 -->
     <script src="https://unpkg.com/ml5@0.4.3/dist/ml5.min.js"></script>
     <!-- scripts me -->
-    <script src="./views/js/m_nuevo/sketch.js"></script>
+    <script src="./views/js/m_existente/sketch.js"></script>
 
 </head>
 <body>
@@ -55,6 +55,9 @@
                 </div>              
 
                 <div>
+                    <h4>RESULTADO MODELO</h4>    
+                    <button class="btn btn-primary btn-lg d-inline-block py-3 px-5" onclick="cargarNeurona()">CARGAR MODELO</button>
+
                     <h4>SELECCIONAR ETIQUETA</h4>                    
                     <div class="form-group" id="option-select">
                         <?php
@@ -100,22 +103,7 @@
                 <hr>
                 <h4>RESULTADO MODELO</h4>    
                 <button class="btn btn-primary btn-lg d-inline-block py-3 px-5" onclick="GuardarNeurona()">OBTENER MODELO</button>
-                
-                <!--
-                <button class="btn btn-outline-success btn-lg btnentrenar">
-                    BOTELLA
-                </button> 
-                <button class="btn btn-outline-success btn-lg btnentrenar">
-                    NADA
-                </button>    
-                <hr>
-                <button class="btn btn-outline-danger btn-lg" onclick="GuardarNeurona()">
-                    GUARDAR
-                </button> 
-                <button class="btn btn-outline-danger btn-lg" onclick="CargarNeurona()">
-                    CARGAR
-                </button>     
-                -->
+
             </div>
         </div>
     </div>
@@ -125,7 +113,7 @@
     <?php
         include_once "./views/modules/cdnsfooter.html";
     ?>
-    <script src="./views/js/m_nuevo/scripts.js"></script>
+    <script src="./views/js/m_existente/scripts.js"></script>
 <!---->
 </body>
 </html>
