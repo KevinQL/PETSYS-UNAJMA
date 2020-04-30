@@ -159,6 +159,37 @@
             return ['eval'=>false,'data'=>$data];
         }
 
+        protected function traerEtiquetasModel($data){
+            //$query = "SELECT nombre FROM residuo WHERE usuario_id = '1'";
+            $query = "SELECT idresiduo, nombre FROM residuo WHERE residuo.usuario_id = '{$data->id}'";
+
+            $resquery = self::ejecutar_una_consulta($query);
+            if($resquery->rowCount()>=1){
+                $arrayEtiquetas = [];
+                while($etiqueta = $resquery->fetch(PDO::FETCH_ASSOC)){
+                    $arrayEtiquetas[] = $etiqueta;
+                }
+                return ['eval'=>true, 'data'=>$arrayEtiquetas];
+            }
+            return ['eval'=>false,'data'=>[]];
+        }
+
+        protected function select_list_of_label_Model($data){
+            $query = "SELECT residuo.idresiduo, residuo.nombre, usuario.dni, usuario.nombre as user_name, usuario.apellido as user_lastname FROM residuo 
+                    INNER JOIN usuario ON residuo.usuario_id = usuario.id
+                    WHERE usuario.dni = '{$data->dni}'";
+
+            $resquery = self::ejecutar_una_consulta($query);
+            if($resquery->rowCount()>=1){
+                $arrayEtiquetas = [];
+                while($etiqueta = $resquery->fetch(PDO::FETCH_ASSOC)){
+                    $arrayEtiquetas[] = $etiqueta;
+                }
+                return ['eval'=>true, 'data'=>$arrayEtiquetas];
+            }
+            return ['eval'=>false,'data'=>[]];
+        }
+
         //-------------------------------------------------------------------------------
         /**
          * si es verad encripta y sino desencripta

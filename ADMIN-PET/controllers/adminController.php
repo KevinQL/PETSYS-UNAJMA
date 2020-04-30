@@ -23,7 +23,7 @@
 
                 //Validando niveles de seguridad. [1]:NIVEL ADMINISTRADOR
                 if($_SESSION['data']['tipo_usuario']==1){
-                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta",'adm_usuario','adm_estacion','asignar_usuario_estacion', 'modelo_nuevo'];
+                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta",'adm_usuario','adm_estacion','asignar_usuario_estacion', 'modelo_nuevo',"modelo_existente"];
                 }else{
                     $arrayPaginas = ["salir_sistema","inicio","info","etiqueta"];
                 }              
@@ -243,6 +243,25 @@
 
             $resModel = self::update_user_station_Model($dataModel);
 
+            return $resModel;
+        }
+
+
+        public function traerEtiquetas_Controller($id){
+
+            $dataModel = new stdClass;
+            $dataModel->id = $id;
+            $resModel = self::traerEtiquetasModel($dataModel);
+
+            return $resModel;            
+        }
+
+
+        public function select_list_of_label_Controller($data){
+            
+            $dataModel = new stdClass;
+            $dataModel->dni = $data->dni;
+            $resModel = self::select_list_of_label_Model($dataModel);
             return $resModel;
         }
 

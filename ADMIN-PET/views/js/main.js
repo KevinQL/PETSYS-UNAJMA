@@ -996,3 +996,10 @@ function fetchFileKev(meth, jsonData, jsonFile, fnRquest){
         fnRquest(data);
     })
 }
+
+
+
+//funcion pruebaa en otros archivos 
+function pruebaArchivo($msj){
+    return "na memes-> "+$msj;
+}

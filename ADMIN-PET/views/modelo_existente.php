@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modelo Nuevo</title>
+    <title>Modelo Existente</title>
     <?php
         include_once "./views/modules/cdnsheader.html";
     ?>

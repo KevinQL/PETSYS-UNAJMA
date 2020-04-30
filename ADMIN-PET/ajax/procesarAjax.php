@@ -71,6 +71,13 @@
             $res_estacion_asig = $estacion_asig->update_user_station_Controller($data);            
             echo json_encode($res_estacion_asig);
         }
+        elseif ( $data->id === "S-ETIQUETAS-MN"){
+            $etiqueta = new adminController();
+            $res_etiqueta= $etiqueta->select_list_of_label_Controller($data);  
+            echo json_encode($res_etiqueta);
+        }
+
+
         else {
             echo json_encode("ERROR!!");
         }

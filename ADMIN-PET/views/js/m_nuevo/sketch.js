@@ -4,7 +4,7 @@
  * 
  * Propiedades que guardan las dimensiones de ancho y 
  * alto del div contenedor donde se ejecutará la camara.
- * @type {number} widht
+ * @type {number} width
  * @type {number} height
  */
 let camara,width, height;
@@ -54,8 +54,8 @@ function setup() {
     
     //inicializando los botones
     let btnentrenar = document.getElementsByClassName("btnentrenar");
-    for (const index in btnentrenar) {        
-        if (btnentrenar.hasOwnProperty(index)) {
+    for (const index in btnentrenar) {       
+        if (btnentrenar.hasOwnProperty(index)){
             btnentrenar[index].addEventListener('click',presionandoBtn);            
         }
     }
@@ -101,6 +101,8 @@ function GuardarNeurona() {
     if (clasificando) {
         //save(knn, "modelo.json");
         knn.save()
+    }else{
+        alert('Aun no tiene un modelo construido')
     }
 }
 
@@ -222,14 +224,15 @@ function clasificar(){
             console.error();
         }else{
             let etiquetaClasificada = result.label;
-            //etiquetaClasificada = knn.mapStringToIndex[etiquetaClasificada];
+            //etiquetaClasificada = knn.mapStringToIndex[etiquetaClasificada]; //para cuando se carga el modelo
             let valorConfianza = result.confidencesByLabel[etiquetaClasificada];
             
             valorConfianzaPorcentual = eval(valorConfianza.toFixed(2) * 100);
 
-            console.log("->",result);
-            enviarClasifiacionServidor(etiquetaClasificada, valorConfianzaPorcentual);
-
+            //console.log("->",result);
+            let resulTxt = `${etiquetaClasificada} ${valorConfianzaPorcentual}`;
+            document.getElementById("txtResultClas").innerHTML = resulTxt;
+            //enviarClasifiacionServidor(etiquetaClasificada, valorConfianzaPorcentual);
 
         }
     })
@@ -266,8 +269,17 @@ function modeloListo(){
  * Funcion que se ejecuta cuando los botones son presionados. Especificamente los de entrenar.
  */
 function presionandoBtn(){
-    console.log("bton presionado",this.innerText);
-    entrenarKnn(this.innerText);
+
+    let element = document.querySelector("#etiqueta_select");
+    let nombre = element.selectedOptions.item(0).innerText;
+    let id = element.value;
+
+    if(id != "-1"){
+        let etiqueta = `${nombre},${id}`;        
+        entrenarKnn(etiqueta);
+    } else{
+        alert('Etiqueta no selccionada')
+    }
 }
 
 
@@ -330,3 +342,17 @@ const save1 = (knn, name) => {
     URL.revokeObjectURL(url);
   };
   
+
+  
+/**
+ * 
+ * @param {*} etiqueta 
+ */
+function tratarEtiqueta(etiqueta){
+    let nombre, id;
+    let arrayResult = etiqueta.split(",");
+    nombre = arrayResult[0];
+    id = arrayResult[1];
+
+    return {nombre,id};    
+}
