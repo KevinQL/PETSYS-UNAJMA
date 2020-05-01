@@ -119,11 +119,11 @@
             }
             //En caso de que no existe el archivo
             else{
-                echo "No existe!";
+                //CUndo el archivo json o modelo no exista
             
         ?>
 
-        <div class="row">
+        <div class="row mt-4 text-danger">
            <p>No Tienes Cargado un Modelo</p>                 
         </div>
         

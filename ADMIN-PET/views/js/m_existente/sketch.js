@@ -292,11 +292,15 @@ function entrenarKnn(objetoEntrenar){
  * @return {string}
  */
 function modeloListo(){
+    
     console.log(msjpruebaM("modelo listo"));
-    //cargando modelo
-    CargarNeurona();
-    console.log("modelo propios listo!!")
-    sweetModalMin('Modelo cargado!!','top-start',5000,'success');
+    
+    //cargando modelo propio
+    CargarNeurona();    
+    //para que no exista el retraso... 
+    setTimeout(() => {
+        sweetModalMin('Modelo cargado!!','top-start',5000,'success');
+    }, 1700);
 }
 
 
