@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * en este archivo se maneja el guardado del archivo modelo .json
+ */
 
 $data = json_decode($_REQUEST['data']);
 

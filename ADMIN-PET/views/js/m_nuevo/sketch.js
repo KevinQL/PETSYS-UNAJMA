@@ -94,6 +94,7 @@ function draw() {
 }
 
 
+
 /**
  * 
  */
@@ -116,86 +117,6 @@ function CargarNeurona() {
     knn.load("./modelo.json", function() {
         console.log("Neurona Cargada knn");
     })
-}
-
-
-
-/**
- * 
- * @param {*} nombreResiduo 
- */
-function EnvioBasuraProcessAjax(nombreResiduo){
-    
-    let xhr = new XMLHttpRequest();
-
-    let datosParam = nombreResiduo;
-    let basura = nombreResiduo;
-    let activar = true;
-    let datosPost = "tipoBasura="+basura;
-    datosPost += "&activar="+activar;
-
-    xhr.onreadystatechange = function(){
-        if(this.readyState == 4 && this.status == 200){
-            let data = JSON.parse(this.responseText); 
-            console.log("datos llegando:",data);
-        }
-    }
-    xhr.open('POST', "/datoReciclaje/"+datosParam, true);
-
-    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-    xhr.send(datosPost);    
-}
-
-
-
-/**
- * 
- * @param {string} nombreResiduo 
- * @param {integer} porcentaje 
- */
-let proceso=false, señal = false, envCantS = 0;
-function enviarClasifiacionServidor(nombreResiduo, porcentaje){
-    
-    nombreResiduo = nombreResiduo.trim();
-    
-    let resulTxt = `${nombreResiduo}, ${porcentaje}%`;
-    document.getElementById("txtResultClas").innerHTML = resulTxt;
-    console.log(nombreResiduo, porcentaje,"%");
-    
-    if(nombreResiduo !== "NADA" && proceso === false){
-        señal = true;
-        proceso = true;
-
-        if(nombreResiduo === "BOTELLA"){            
-            console.log("es una botella");
-            EnvioBasuraProcessAjax(nombreResiduo);            
-        }else{
-            EnvioBasuraProcessAjax(nombreResiduo);
-            console.log("es otra cosa")
-        }
-
-        envCantS++;
-
-        console.log("Enviando servidor...",envCantS,"veces");     
-
-    }else{
-        if(señal){
-            envCantS++;
-            if(envCantS==10){
-                proceso = false;
-                señal = false;
-                envCantS = 0;
-                console.log("Error, enviando otra vez");
-            }
-            console.log("Tardando proceso ",envCantS," veces");
-        }
-        if(nombreResiduo === "NADA"){
-            señal = false;
-            proceso = false;
-            envCantS = 0;
-        }
-    }
 }
 
 
@@ -228,11 +149,12 @@ function clasificar(){
             let valorConfianza = result.confidencesByLabel[etiquetaClasificada];
             
             valorConfianzaPorcentual = eval(valorConfianza.toFixed(2) * 100);
-
-            //console.log("->",result);
-            let resulTxt = `${etiquetaClasificada} ${valorConfianzaPorcentual}`;
-            document.getElementById("txtResultClas").innerHTML = resulTxt;
-            //enviarClasifiacionServidor(etiquetaClasificada, valorConfianzaPorcentual);
+                        
+            let {nombre_tag, id_tag} = tratarEtiqueta(etiquetaClasificada);
+            
+            let resulTxt = `${nombre_tag} / ${valorConfianzaPorcentual}%`;
+            
+            document.getElementById("txtResultClas").innerHTML = resulTxt;           
 
         }
     })
@@ -280,79 +202,4 @@ function presionandoBtn(){
     } else{
         alert('Etiqueta no selccionada')
     }
-}
-
-
-
-/**
- * Regresa el mensaje especificado en mayuscula.
- * @param {string} msj 
- * @return {string} 
- */
-function msjpruebaM(msj){
-    return msj.toLocaleUpperCase();
-}
-
-
-
-/**
- * 
- * @param {object} knn 
- * @param {string} name 
- */
-// Temporary save code until ml5 version 0.2.2
-const save1 = (knn, name) => {
-    const dataset = knn.knnClassifier.getClassifierDataset();
-    if (knn.mapStringToIndex.length > 0) {
-      Object.keys(dataset).forEach(key => {
-        if (knn.mapStringToIndex[key]) {
-          dataset[key].label = knn.mapStringToIndex[key];
-        }
-      });
-    }
-    const tensors = Object.keys(dataset).map(key => {
-      const t = dataset[key];
-      if (t) {
-        return t.dataSync();
-      }
-      return null;
-    });
-    let fileName = 'myKNN.json';
-    if (name) {
-      fileName = name.endsWith('.json') ? name : `${name}.json`;
-    }
-    saveFile(fileName, JSON.stringify({
-      dataset,
-      tensors
-    }));
-  };
-  
-  const saveFile = (name, data) => {
-    const downloadElt = document.createElement('a');
-    const blob = new Blob([data], {
-      type: 'octet/stream'
-    });
-    const url = URL.createObjectURL(blob);
-    downloadElt.setAttribute('href', url);
-    downloadElt.setAttribute('download', name);
-    downloadElt.style.display = 'none';
-    document.body.appendChild(downloadElt);
-    downloadElt.click();
-    document.body.removeChild(downloadElt);
-    URL.revokeObjectURL(url);
-  };
-  
-
-  
-/**
- * 
- * @param {*} etiqueta 
- */
-function tratarEtiqueta(etiqueta){
-    let nombre, id;
-    let arrayResult = etiqueta.split(",");
-    nombre = arrayResult[0];
-    id = arrayResult[1];
-
-    return {nombre,id};    
 }

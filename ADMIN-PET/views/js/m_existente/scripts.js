@@ -148,20 +148,3 @@ function buscarEtiqueta($this){
     }
 
 }
-
-
-
-/*
-
-function tratarEtiqueta(etiqueta){
-    let nombre, id;
-    let arrayResult = etiqueta.split(",");
-    nombre = arrayResult[0];
-    id = arrayResult[1];
-
-    return {nombre,id};    
-}
-
-let res = tratarEtiqueta("kevin,3");
-console.log(res.nombre);
-*/

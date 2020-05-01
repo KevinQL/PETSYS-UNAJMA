@@ -139,6 +139,7 @@
     <?php
         include_once "./views/modules/cdnsfooter.html";
     ?>
+    <script src="./views/js/m_main.js"></script>
     <script src="./views/js/m_existente/scripts.js"></script>
 <!---->
 </body>
