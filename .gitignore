@@ -1,2 +1,4 @@
-node_modules
-./src/public/modelo_knn
+# Ignorar el contenido de las carpetas log y cache
+node_modules/
+
+src/public/modelo_knn
