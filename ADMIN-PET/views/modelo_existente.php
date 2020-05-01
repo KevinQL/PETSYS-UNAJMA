@@ -41,9 +41,6 @@
         <div class="row">
 
             <div class="col-md-12 pb-5">
-                <!--
-                <button class="btn btn-primary btn-lg d-inline-block " onclick="CargarNeurona()">CARGAR MODELO</button>
-                -->
                 <br>                
                 <input type="text" class="form-control d-inline-block w-25" onkeyup="buscarEtiqueta(this)" placeholder="USUARIO DNI">   
                 <small class="text-muted d-block text-small mb-1">Cargar las etiquetas de un usuario determinado.</small>                                

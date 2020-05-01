@@ -113,7 +113,7 @@ function GuardarNeurona() {
  */
 function CargarNeurona() {
     console.log("Cargando una Neurona");
-    knn.load("../src/public/modelo.json", function() {
+    knn.load("../src/public/modelo_knn/modelo.json", function() {
         console.log("Neurona Cargada knn");
     })
 }
@@ -293,6 +293,10 @@ function entrenarKnn(objetoEntrenar){
  */
 function modeloListo(){
     console.log(msjpruebaM("modelo listo"));
+    //cargando modelo
+    CargarNeurona();
+    console.log("modelo propios listo!!")
+    sweetModalMin('Modelo cargado!!','top-start',5000,'success');
 }
 
 
