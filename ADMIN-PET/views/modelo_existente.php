@@ -20,25 +20,37 @@
 </head>
 <body>
 <!---->
-    <?php
-        
-        include_once "./views/modules/navegacion.html";
-       
+    <?php    
+        include_once "./views/modules/navegacion.html";                
     ?>
 
 
-    <div class="jumbotron container my-4">
+    <div class="jumbotron container my-4 pt-4">
 
-        <div class="col-md-4">
-            <h4>Buscar Usuario</h4>                    
-            <input type="text" class="form-control d-inline-block" onkeyup="buscarEtiqueta(this)" placeholder="INGRESE DNI">   
-            <span class="mr-1"><i class="fas fa-user-check fa-lg"></i></span>
-            <span class="py-2 d-inline-block text-small text-success usuario-nombre text-uppercase"><?php echo "{$_SESSION['data']['nombre']} {$_SESSION['data']['apellido']}"?></span>
+        <div class="row col-md-12">            
+            <button class="btn btn-lg btn-outline-warning px-5 w-25 d-inline-block " onclick="subirModelo()">SUBIR MODELO</button>
         </div>        
         
-        <hr class="my-4">
+        <hr class="mt-1">
         
+        <?php 
+        //poner condicional
+        if(file_exists("../src/public/modelo_knn/modelo.json")){
+            //echo "Existe!!";            
+        ?>
         <div class="row">
+
+            <div class="col-md-12 pb-5">
+                <!--
+                <button class="btn btn-primary btn-lg d-inline-block " onclick="CargarNeurona()">CARGAR MODELO</button>
+                -->
+                <br>                
+                <input type="text" class="form-control d-inline-block w-25" onkeyup="buscarEtiqueta(this)" placeholder="USUARIO DNI">   
+                <small class="text-muted d-block text-small mb-1">Cargar las etiquetas de un usuario determinado.</small>                                
+                <span class="mr-1"><i class="fas fa-user-check fa-lg"></i></span>
+                <span class="mt-2 text-success text-uppercase usuario-nombre"><?php echo "{$_SESSION['data']['nombre']} {$_SESSION['data']['apellido']}"?></span>
+            </div>
+
             <div class="col-md-4">                
                 <div id="canvas">     
                     la camara está en funcionamiento... 
@@ -54,9 +66,7 @@
                     <i class="fas fa-robot fa-2x"></i>                  
                 </div>              
 
-                <div>
-                    <h4>RESULTADO MODELO</h4>    
-                    <button class="btn btn-primary btn-lg d-inline-block py-3 px-5" onclick="cargarNeurona()">CARGAR MODELO</button>
+                <div>                    
 
                     <h4>SELECCIONAR ETIQUETA</h4>                    
                     <div class="form-group" id="option-select">
@@ -106,6 +116,25 @@
 
             </div>
         </div>
+        
+        <?php 
+            //fin if 
+            }
+            //En caso de que no existe el archivo
+            else{
+                echo "No existe!";
+            
+        ?>
+
+        <div class="row">
+           <p>No Tienes Cargado un Modelo</p>                 
+        </div>
+        
+        <?php
+            //fin else
+            }
+        ?>
+
     </div>
 
 

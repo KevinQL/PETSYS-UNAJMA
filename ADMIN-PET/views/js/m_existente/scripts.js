@@ -1,3 +1,66 @@
+function subirModelo_archivo(){
+    let el = document.querySelector("#archivo2");
+
+    if(el.files.length > 0){
+ 
+        let sp = el.files[0].name.split('.');
+
+        if( sp[sp.length-1] != 'json' ){
+            alert('El archivo no es un modelo')
+        } else{
+            //enviar modelo.json al servidor
+            let archivo = el.files[0];
+            let url = './ajax/pruebaAjax.php';
+            fetchFileKev('POST',{
+                id:'S_FILE_MODEL'
+            },{
+                archivo
+            },
+            data=>{
+
+                //archivo subido
+                console.log(data);                
+
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Tu archivo se cargo.',
+                    showConfirmButton: false,
+                    timer: 1000
+                })
+
+                setTimeout(()=>{
+                    location.reload();
+                },1100)
+                
+            },
+            url);
+        } 
+    }else{
+        alert("No se Selecciono Modelo")
+    }
+}
+
+function subirModelo(){
+    Swal.fire({
+        title: '<strong><u>SUBIR MODELO</u></strong>',
+        icon: 'info',
+        html: `
+        <div class="form-group">
+            <label for="archivo2">Seleccionar Archivo .json</label>
+            <input type="file" class="form-control-file" id="archivo2" aria-describedby="fileHelp">
+            <small id="fileHelp" class="form-text text-muted">Debe subir un archivo en formato .json. Este archivo debe contener un modelo entrenado</small>
+        </div>
+        <div class="form-group">            
+            <button class="btn btn-primary btn-lg d-inline-block" onclick="subirModelo_archivo()">SUBIR ARCHIVO MODELO</button>
+        </div>
+        `,
+        showCloseButton: true,                
+        confirmButtonColor: '#d33',
+        confirmButtonText:'CANCELAR <i class="fas fa-times-circle"></i>',        
+        confirmButtonAriaLabel: 'Thumbs up, great!'
+      })
+}
 
 
 function obtenerEtiqueta_s(){

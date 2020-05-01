@@ -113,7 +113,7 @@ function GuardarNeurona() {
  */
 function CargarNeurona() {
     console.log("Cargando una Neurona");
-    knn.load("./modelo.json", function() {
+    knn.load("../src/public/modelo.json", function() {
         console.log("Neurona Cargada knn");
     })
 }
@@ -224,20 +224,55 @@ function clasificar(){
             console.error();
         }else{
             let etiquetaClasificada = result.label;
-            //etiquetaClasificada = knn.mapStringToIndex[etiquetaClasificada]; //para cuando se carga el modelo
-            let valorConfianza = result.confidencesByLabel[etiquetaClasificada];
+            etiquetaClasificada = knn.mapStringToIndex[etiquetaClasificada];//sacar nombre del objeto knn
+            //let valorConfianza = result.confidencesByLabel[etiquetaClasificada];
             
-            valorConfianzaPorcentual = eval(valorConfianza.toFixed(2) * 100);
+            console.log("1) --->",result);
+            let etiqueta;
+            if(etiquetaClasificada!=undefined){
+                console.log("2) --->",result.label); //indice, 0,1,2,3...
+                console.log("2) --->",etiquetaClasificada);
+                
+                etiqueta = etiquetaClasificada;
+            }else{
+                let etiquetaNueva = dameEtiquetaNuevoEntrenado(result);
+                console.log("####->>",etiquetaNueva)
 
-            //console.log("->",result);
-            let resulTxt = `${etiquetaClasificada} ${valorConfianzaPorcentual}`;
-            document.getElementById("txtResultClas").innerHTML = resulTxt;
+                etiqueta = etiquetaNueva;
+            }
+
+            
+            console.log("#) --->");
+            console.log("#) --->");
+
+            //valorConfianzaPorcentual = eval(valorConfianza.toFixed(2) * 100);
+
+            //console.log("2) --->",result);
             //enviarClasifiacionServidor(etiquetaClasificada, valorConfianzaPorcentual);
+            document.getElementById("txtResultClas").innerHTML = etiqueta;
 
         }
     })
 
 }
+
+
+
+/**
+ * 
+ * @param {Object} object 
+ */
+function dameEtiquetaNuevoEntrenado(object){
+    let etiqueta="cargando...";
+    for (const key in object.confidencesByLabel) {
+        if(object.confidencesByLabel[key] == 1){
+            etiqueta = key;
+        }            
+    }
+    return etiqueta;
+}
+
+
 
 /**
  * La etiqueta nombre del componenete residuo a entrenar

@@ -1,17 +1,22 @@
 <?php
 
+
 $data = json_decode($_REQUEST['data']);
 
 $file = $_FILES['archivo'];
 
-$nombre = $file['name'];
+//$nombre = $file['name'];
+$nombre = "modelo.json";
 $tmg_save = $file['tmp_name'];
 
-if(!file_exists('archivos')){
-    mkdir('archivos',0777,true);
-    $resultado = move_uploaded_file($tmg_save, 'archivos/'.$nombre);
+$dir_model_compartido = '../../src/public/modelo_knn';
+
+if(!file_exists($dir_model_compartido)){
+    mkdir($dir_model_compartido,0777,true); //creando directorio si no existe...
+    $resultado = move_uploaded_file($tmg_save, $dir_model_compartido.'/'.$nombre); //se guarda el modelo json
 }else{
-    $resultado = move_uploaded_file($tmg_save, 'archivos/'.$nombre);
+    $resultado = move_uploaded_file($tmg_save, $dir_model_compartido.'/'.$nombre); //se guarda el modelo json
+    //$resultado = move_uploaded_file($tmg_save, '../public/'.$nombre); //se guarda el modelo json
 }
 
 if($resultado){

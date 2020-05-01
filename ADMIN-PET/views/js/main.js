@@ -979,7 +979,7 @@ function fetchKev(meth, jsonData, fnRquest, urlProcess){
  * @param {Object} jsonFile Datos de los archivos de cualquier tipo: png, .sql, .pdf... Etc
  * @param {Function} fnRquest Aquí se tratarán los datos devueltos del servidor
  */
-function fetchFileKev(meth, jsonData, jsonFile, fnRquest){
+function fetchFileKev(meth, jsonData, jsonFile, fnRquest, url){
     let formData = new FormData();
 
     for(nameIN in jsonFile){
@@ -988,7 +988,7 @@ function fetchFileKev(meth, jsonData, jsonFile, fnRquest){
     
     formData.append("data", JSON.stringify(jsonData));
 
-    fetch('./ajax/pruebaAjax.php',{
+    fetch(url,{
         method: meth,
         body: formData
     }).then( data => data.json())
