@@ -110,18 +110,6 @@ function GuardarNeurona() {
 
 
 /**
- * 
- */
-function CargarNeurona() {
-    console.log("Cargando una Neurona");
-    knn.load("./modelo.json", function() {
-        console.log("Neurona Cargada knn");
-    })
-}
-
-
-
-/**
  * Variable que guarda la información del objeto clasificado: su etiqueta, procentaje de efectividad, etc
  * @param {object} result
  * 
