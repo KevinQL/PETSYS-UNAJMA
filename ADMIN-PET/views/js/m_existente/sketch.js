@@ -144,23 +144,29 @@ function clasificar(){
             console.error();
 
         }else{
-
-            let etiquetaClasificada = result.label; //indice, 0,1,2,3... #Cuando se entrena por primera vez, estos son NOMBRES, NO indices
-            etiquetaClasificada = knn.mapStringToIndex[etiquetaClasificada];//sacar NOMBRE del la etiqueta del objeto KNN
-            //let valorConfianza = result.confidencesByLabel[etiquetaClasificada];
+            console.log("-->>>",result);
+            let etiquetaClasificada_result = result.label; //indice, 0,1,2,3... #Cuando se entrena por primera vez, estos son NOMBRES, NO indices
+            let etiquetaClasificada = knn.mapStringToIndex[etiquetaClasificada_result];//sacar NOMBRE del la etiqueta del objeto KNN
+            let valorConfianza = 0;
             //Guardará el nombre de la etiqueta clasificada
             let etiqueta;
             //Esto pasa generalmente cuando se reentrena al modelo
             if(etiquetaClasificada != undefined){                                
                 etiqueta = etiquetaClasificada;
+                valorConfianza = result.confidencesByLabel[etiquetaClasificada];
             }else{
-                etiqueta = dameEtiquetaNuevoEntrenado(result);
+                let {etiqueta_n, val_confianza_n} = dameEtiquetaNuevoEntrenado(result);
+                etiqueta = etiqueta_n;
+                valorConfianza = val_confianza_n;
             }
+            //Convertir en porcentaje
+            valorConfianza = eval(valorConfianza.toFixed(2) * 100);
             //separa el NOMBRE del ID. 
             let {nombre_tag, id_tag} = tratarEtiqueta(etiqueta);
-
+            //resultado por pantalla
+            let resulTxt = `${nombre_tag} / ${valorConfianza}%`;
             //valorConfianzaPorcentual = eval(valorConfianza.toFixed(2) * 100);
-            document.getElementById("txtResultClas").innerHTML = nombre_tag;
+            document.getElementById("txtResultClas").innerHTML = resulTxt;
 
         }
     })
@@ -175,13 +181,15 @@ function clasificar(){
  * @param {Object} object 
  */
 function dameEtiquetaNuevoEntrenado(object){
-    let etiqueta="cargando...";
+    let etiqueta_n = "cargando...";
+    let val_confianza_n = 0;
     for (const key in object.confidencesByLabel) {
-        if(object.confidencesByLabel[key] == 1){
-            etiqueta = key;
+        if(object.confidencesByLabel[key] > 0.35){
+            etiqueta_n = key;
+            val_confianza_n = object.confidencesByLabel[key];
         }            
     }
-    return etiqueta;
+    return {etiqueta_n, val_confianza_n};
 }
 
 
