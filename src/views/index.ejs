@@ -46,25 +46,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto">                    
                     <li class="nav-item">
-                        <a class="nav-link" href="#">INICIO</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">ADMINISTRAR</a>
-                    </li>
-                    
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            SOBRE
-                        </a>
-                        <div class="dropdown-menu bg-dark p-0" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item " href="#">AUTOR</a>
-                            <a class="dropdown-item " href="#">PROYECTO</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link bg-danger" href="#" onclick="cerrarAppIa()">CERRAR</a>
+                        USUARIO : <span> <%= usuario_name %></span>
                     </li>
                 </ul>
             </div>
@@ -77,7 +61,7 @@
             <div class="col-md-8">
                 <h1>SCREEM CARRUSEL</h1>                   
                 <hr>
-
+                <%= usuario_id %> 
                 <button class="btn btn-outline-danger btn-lg" onclick="CargarNeurona()">
                     CARGAR
                 </button>    

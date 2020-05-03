@@ -3,8 +3,11 @@ const express = require("express");
 const routes = express.Router();
 
 //renderizando el aplicativo principal IA
-routes.get('/',(req, res)=>{
-    res.render("index");
+routes.get('/:userAdmin',(req, res)=>{
+    let usuario = req.params.userAdmin;
+    let {name,id} = tratarDatosUser(usuario);
+
+    res.render("index",{usuario_name:name, usuario_id:id});
 })
 
 let valor = "";
@@ -82,6 +85,15 @@ routes.post('/msj',(req, res)=>{
 
 function msj(nombre){
     return "valor enviado: "+nombre;
+}
+
+function tratarDatosUser(data){
+    let name,id;
+    let arr_ = data.split(",");
+    name = arr_[0];
+    id = arr_[1];
+
+    return {name,id};
 }
 
 
