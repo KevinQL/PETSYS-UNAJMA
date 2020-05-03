@@ -11,7 +11,14 @@
     <meta http-equiv="Pragma" content="no-cache">
         
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    -->
+    <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
+    <!-- sweet and google fonts  -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <!-- font awesome -->
+    <script src="https://kit.fontawesome.com/1c90e8b317.js" crossorigin="anonymous"></script>
 
     <!-- p5 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
@@ -32,8 +39,9 @@
         <header class="container">
             <a class="navbar-brand" href="#">
                 <img src="#" width="30" height="30" class="d-inline-block align-top" alt="">
-                App-IA
+                <i class="fas fa-robot fa-2x"></i>  
             </a>
+            
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -67,12 +75,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8">
-                <h1>SCREEM CARRUSEL</h1>   
-                <input type=button value="Cerrar" onclick="cerrarAppIa()">
-                <button type="button" class="btn btn-primary" onClick="Finalizar();">Entendido</button>
-
-                <a href="mipagina.html" target="_blank">Abre el enlace en una nueva ventana</a>
-                
+                <h1>SCREEM CARRUSEL</h1>                   
                 <hr>
 
                 <button class="btn btn-outline-danger btn-lg" onclick="CargarNeurona()">
@@ -94,6 +97,9 @@
             </div>
         </div>
     </div>
+
+
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
