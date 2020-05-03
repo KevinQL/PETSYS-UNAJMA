@@ -111,7 +111,7 @@ function GuardarNeurona() {
  */
 function CargarNeurona() {
     console.log("Cargando una Neurona");
-    knn.load("./modelo.json", function() {
+    knn.load("./modelo/clasificador.json", function() {
         console.log("Neurona Cargada knn");
     })
 }

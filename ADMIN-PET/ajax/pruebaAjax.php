@@ -8,10 +8,11 @@ $data = json_decode($_REQUEST['data']);
 $file = $_FILES['archivo'];
 
 //$nombre = $file['name'];
-$nombre = "modelo.json";
+$nombre = "clasificador.json";
 $tmg_save = $file['tmp_name'];
 
-$dir_model_compartido = '../../src/public/modelo_knn';
+//$dir_model_compartido = '../../src/public/modelo_knn';
+$dir_model_compartido = '../public';
 
 if(!file_exists($dir_model_compartido)){
     mkdir($dir_model_compartido,0777,true); //creando directorio si no existe...

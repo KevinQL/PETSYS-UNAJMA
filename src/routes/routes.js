@@ -78,8 +78,12 @@ routes.post('/msj',(req, res)=>{
     });
 })
 
+
+
 function msj(nombre){
     return "valor enviado: "+nombre;
 }
+
+
 
 module.exports = routes;
