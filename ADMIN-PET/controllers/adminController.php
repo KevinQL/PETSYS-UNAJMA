@@ -23,7 +23,7 @@
 
                 //Validando niveles de seguridad. [1]:NIVEL ADMINISTRADOR
                 if($_SESSION['data']['tipo_usuario']==1){
-                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta",'adm_usuario','adm_estacion','asignar_usuario_estacion', 'modelo_nuevo',"modelo_existente"];
+                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta",'adm_usuario','adm_estacion','asignar_usuario_estacion', 'modelo_nuevo',"modelo_existente","run_nodejs"];
                 }else{
                     $arrayPaginas = ["salir_sistema","inicio","info","etiqueta"];
                 }              
