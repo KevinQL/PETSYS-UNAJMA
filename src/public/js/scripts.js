@@ -11,3 +11,12 @@ document.getElementById("btn-tocar").addEventListener("click",()=>{
     xhr.send();
 
 })
+
+
+function cerrarAppIa(){
+    alert("la ventana se cerrara")    
+    window.close();
+}
+function Finalizar() {        
+    window.close();
+}
