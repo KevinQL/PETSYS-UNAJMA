@@ -23,16 +23,20 @@
 
                 //Validando niveles de seguridad. [1]:NIVEL ADMINISTRADOR
                 if($_SESSION['data']['tipo_usuario']==1){
-                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta",'adm_usuario','adm_estacion','asignar_usuario_estacion', 'modelo_nuevo',"modelo_existente","run_nodejs"];
+                    // $arrayPaginas = ["salir_sistema","inicio","etiqueta",'adm_usuario','adm_estacion','asignar_usuario_estacion', 'modelo_nuevo',"modelo_existente","run_nodejs","info"];
+                    $arrayPaginas = ["salir_sistema","inicio_adm","etiqueta",'adm_usuario','adm_estacion','asignar_usuario_estacion',"info"];
+
+                    $pagina = $this->pagina_sistema($pagina, $arrayPaginas, "inicio_adm.php");
                 }else{
-                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta"];
+                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta",   "run_nodejs",'modelo_nuevo',"modelo_existente"];
+                    $pagina = $this->pagina_sistema($pagina, $arrayPaginas, "inicio.php");
                 }              
 
-                if(in_array($pagina,$arrayPaginas,true)){
-                    $pagina .= ".php";
-                }else {
-                    $pagina = "inicio.php";
-                }
+                // if(in_array($pagina,$arrayPaginas,true)){
+                //     $pagina .= ".php";
+                // }else {
+                //     $pagina = "inicio.php";
+                // }
 
             }else{
 
@@ -52,8 +56,21 @@
 
         }
 
+        /**
+         * 
+         */
+        public function pagina_sistema($pagina, $arr_pags, $pag_def){
+            $res_pag = $pag_def;
+            if(in_array($pagina, $arr_pags,true)){
+                $res_pag = $pagina . ".php";
+            }  
+            return $res_pag;
+        }
 
 
+        /**
+         * 
+         */
         public function traerUser(){
             $result = adminModel::sqlSingle("SELECT * FROM usuario");
             return $result;
