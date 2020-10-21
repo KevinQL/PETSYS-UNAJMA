@@ -11,6 +11,7 @@ routes.get('/:userAdmin',(req, res)=>{
 })
 
 let valor = "";
+//let id_residuo = 0;
 let ExiteElemento = false;
 
 routes.post('/datoReciclaje/:data',(req,res)=>{
@@ -18,8 +19,8 @@ routes.post('/datoReciclaje/:data',(req,res)=>{
     console.log("-->",req.body,req.params);
 
     valor =  req.body.tipoBasura; // BOTELLA o OTROS
-    ExiteElemento = req.body.activar.valueOf();//true or false
-    console.log("nuevo->",ExiteElemento,true);
+    id_residuo = req.body.id_residuo;
+    ExiteElemento = req.body.activar.valueOf();//true or false    
 
     res.json("Datos actualizados!!");
 })

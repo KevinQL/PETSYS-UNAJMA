@@ -122,15 +122,15 @@ function CargarNeurona() {
  * 
  * @param {*} nombreResiduo 
  */
-function EnvioBasuraProcessAjax(nombreResiduo){
+function EnvioBasuraProcessAjax(nombreResiduo, id_residuo){
     
     let xhr = new XMLHttpRequest();
 
-    let datosParam = nombreResiduo;
-    let basura = nombreResiduo;
+    let datosParam = nombreResiduo;     
     let activar = true;
-    let datosPost = "tipoBasura="+basura;
+    let datosPost = "tipoBasura="+nombreResiduo;
     datosPost += "&activar="+activar;
+    datosPost += "&id_residuo="+id_residuo;
 
     xhr.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
@@ -153,23 +153,22 @@ function EnvioBasuraProcessAjax(nombreResiduo){
  * @param {integer} porcentaje 
  */
 let proceso=false, señal = false, envCantS = 0;
-function enviarClasifiacionServidor(nombreResiduo, porcentaje){
+function enviarClasifiacionServidor(nombreResiduo, id_residuo, porcentaje){
     
     nombreResiduo = nombreResiduo.trim();
     
-    let resulTxt = `${nombreResiduo}, ${porcentaje}%`;
-    document.getElementById("txtResultClas").innerHTML = resulTxt;
-    console.log(nombreResiduo, porcentaje,"%");
-    
+    //si no hay nada NO SE ENVÍA NADA (no hace nada) al servidor
     if(nombreResiduo !== "NADA" && proceso === false){
         señal = true;
         proceso = true;
 
         if(nombreResiduo === "BOTELLA"){            
             console.log("es una botella");
-            EnvioBasuraProcessAjax(nombreResiduo);            
+            // se evía al servidor para clasificarlo en el contenedor de botellas
+            EnvioBasuraProcessAjax(nombreResiduo, id_residuo);            
         }else{
-            EnvioBasuraProcessAjax(nombreResiduo);
+            // se envía al servidor para clasificarlo en el contenedor de residuos normales
+            EnvioBasuraProcessAjax(nombreResiduo, id_residuo);
             console.log("es otra cosa")
         }
 
@@ -225,29 +224,30 @@ function clasificar(){
             etiquetaClasificada = knn.mapStringToIndex[etiquetaClasificada];//sacar nombre del objeto knn
             let valorConfianza = result.confidencesByLabel[etiquetaClasificada];
             
-            console.log("1) --->",result);
             let etiqueta;
-            if(etiquetaClasificada!=undefined){
+            if(etiquetaClasificada!=undefined){ // si no se está entrenando del modelo
                 console.log("2) --->",result.label); //indice, 0,1,2,3...
-                console.log("2) --->",etiquetaClasificada);
-                
+                console.log("2) --->",etiquetaClasificada); // botella, nada, galleta ...                
                 etiqueta = etiquetaClasificada;
             }else{                
                 let etiquetaNueva = dameEtiquetaNuevoEntrenado(result);
                 console.log("####->>",etiquetaNueva)
-
                 etiqueta = etiquetaNueva;
             }
 
+            valorConfianzaPorcentual = eval(valorConfianza.toFixed(2) * 100);
+
+            let {nombre_tag, id_tag} = letter_split(etiqueta)
             
-            console.log("#) --->");
-            console.log("#) --->");
-
-            //valorConfianzaPorcentual = eval(valorConfianza.toFixed(2) * 100);
-
-            //console.log("2) --->",result);
-            //enviarClasifiacionServidor(etiquetaClasificada, valorConfianzaPorcentual);
-            document.getElementById("txtResultClas").innerHTML = etiqueta;
+            if(es_nada(nombre_tag)){
+                //SI NO HAY NADA, NO HACE NADA
+                enviarClasifiacionServidor('NADA', id_tag, valorConfianzaPorcentual);
+            }else if(es_botella(nombre_tag)){                         
+                enviarClasifiacionServidor('BOTELLA', id_tag, valorConfianzaPorcentual);
+            }else{ // es otra cosa / otro tipo de residuo
+                enviarClasifiacionServidor(nombre_tag, id_tag, valorConfianzaPorcentual);
+            }
+            document.getElementById("txtResultClas").innerHTML = nombre_tag;
 
         }
     })
@@ -362,3 +362,38 @@ const save1 = (knn, name) => {
     URL.revokeObjectURL(url);
   };
   
+
+
+  /**
+   * 
+   */
+  function letter_split(text){
+    let nombre = text.split(',')
+    let nombre_tag = nombre[0]  
+    let id_tag = nombre[1]  
+    return {
+        nombre_tag,
+        id_tag
+    }
+  }
+
+  /**
+   * 
+   */
+  function es_botella(text){
+      if(text.search('botella') == -1){
+          return false;
+      }
+      return true;    
+  }
+
+  /**
+   * 
+   */
+  function es_nada(text){
+      let txt = text.trim().toLowerCase();
+    if(txt.search('nada') == -1){
+        return false;
+    }
+    return true;   
+  }

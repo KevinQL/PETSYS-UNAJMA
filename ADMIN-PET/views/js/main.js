@@ -810,10 +810,13 @@ function estudiarEtiqueta($this,id){
 //****************************************************************************************** */
 
 /**
- * Elementos inputs para ser limpiados.
- * @param {Array} arrElement 
+ * 
+ * @param {Array} arrElement Array que contiene a todos los inputs los cuales se quiere limpiar su contenido.
+ * 
+ * Funcion que elimina los contenidos de los inputs de un formulario. 
+ * 
+ * @pruebas (success)
  */
-//funcion para limpiar
 function cleanInputs(arrElement){
     arrElement.forEach( element => {
         element.value = "";
@@ -824,10 +827,12 @@ function cleanInputs(arrElement){
 
 /**
  * 
- * @param {*} mensaje 
- * @param {*} position 
- * @param {*} icon 
- * @param {*} timer 
+ * @param {String} mensaje cadena de texto 
+ * @param {String} position posicion del mensaje de texto. Que puede ser (top, bottom, center, top-end, top-start, center-end, center-start, bottom-end, bottom-start)
+ * @param {String} icon  El estado del mensaje. Puede ser (success, error, info, warning)
+ * @param {Integer} timer EL tiempo de espera para que el mensaje se muestre.
+ * 
+ * @pruebas (success)
  */
 function sweetModal(mensaje,position,icon,timer){
     Swal.fire({
@@ -849,10 +854,12 @@ function sweetModal(mensaje,position,icon,timer){
 
 /**
  * 
- * @param {*} mensaje 
- * @param {*} position 
- * @param {*} timer 
- * @param {*} icon 
+ * @param {*} mensaje cadena de texto 
+ * @param {*} position posicion del mensaje de texto. Que puede ser (top, bottom, center, top-end, top-start, center-end, center-start, bottom-end, bottom-start)
+ * @param {*} timer EL tiempo de espera para que el mensaje se muestre.
+ * @param {*} icon El estado del mensaje. Puede ser (success, error, info, warning)
+ * 
+ * @pruebas (success)
  */
 function sweetModalMin(mensaje,position,timer,icon,){
     const Toast = Swal.mixin({
@@ -883,6 +890,12 @@ function sweetModalMin(mensaje,position,timer,icon,){
  * 
  * Intercambia una clase una por otra
  * en el intento de que no exista las calses que se quiere eliminar y agregar, se intará agregar una clase
+ * O elimina la clase removeClass cuando existen ambas clases en el elemento.
+ * o agrega la clase addClase, cuando no existe la clase en el elemento
+ * 
+ * El proposito de la clase, es eliminar la clase removeClass (si existe) y agrega la calse addClase (si no existe)
+ * 
+ * @pruebas (success)
  */
 function intercambiaClases(element, removeClass, addClass, existe){
     if(element.classList.contains(removeClass) && !element.classList.contains(addClass) && existe){
@@ -893,9 +906,11 @@ function intercambiaClases(element, removeClass, addClass, existe){
             if(element.classList.contains(removeClass) && !element.classList.contains(addClass)){
                 intercambiaClases(element, removeClass, addClass, true);
             }else{
+                //elimina la clase removeClass si existe. 
                 if(element.classList.contains(removeClass)){
                     element.classList.remove(removeClass);
                 }
+                //agrega la clase addClass si no existe y no es vacio.
                 if(!element.classList.contains(addClass)){
                     if(addClass.trim() != "")element.classList.add(addClass);
                 }
@@ -904,15 +919,16 @@ function intercambiaClases(element, removeClass, addClass, existe){
     }    
 }
 
-
-
 /**
  * 
  * @param {String} metodo Que puede ser GET o POST / o también se puede dejar vacio, valor por defaul POST
  * @param {Object} datajson Los datos que se enviarán al servidor
- * @param {Function} bloqueCode Función que procesará los datos que retornan del servidor
+ * @param {Function} bloqueCode Función que procesará los datos que retornan del servidor (callback)
  * 
- * Función ajax modificado 
+ * Función implementada sobre Ajax
+ * Función que se encarga de enviar los datos al servidor sin la necesidad de realizar recargar la página, de modo que mejora la experiencia de usuario.
+ * 
+ * @pruebas (success)
  */
 function ajaxKev(metodo, datajson, bloqueCode){
 
@@ -953,8 +969,14 @@ function ajaxKev(metodo, datajson, bloqueCode){
 /**
  * 
  * @param {String} meth Que puede ser 'POST' o 'GET'
- * @param {Object} jsonData Datos que se enviarán al servidor para que sena procesados
+ * @param {Object} jsonData Datos que se enviarán al servidor para que sean procesados
  * @param {Function} fnRquest Aquí se tratarán los datos devueltos del servidor
+ * @param {String} urlProcess direccion o ruta del archivo que procesará los datos
+ * 
+ * Función implementada sobre fetch - ajax.
+ * Función que permite el envío de datos sin la necesidad de sobre cargar el envío con información innecesaria
+ * 
+ * @pruebas (success)
  */
 function fetchKev(meth, jsonData, fnRquest, urlProcess){
     let formData = new FormData();
@@ -978,6 +1000,11 @@ function fetchKev(meth, jsonData, fnRquest, urlProcess){
  * @param {Object} jsonData Datos que se enviarán al servidor para que sena procesados
  * @param {Object} jsonFile Datos de los archivos de cualquier tipo: png, .sql, .pdf... Etc
  * @param {Function} fnRquest Aquí se tratarán los datos devueltos del servidor
+ * 
+ *  * Función implementada sobre fetch - ajax.
+ * Función que permite el envío de datos sin la necesidad de sobre cargar el envío con información innecesaria
+ * 
+ * @pruebas (success)
  */
 function fetchFileKev(meth, jsonData, jsonFile, fnRquest, url){
     let formData = new FormData();
