@@ -190,6 +190,49 @@
             return ['eval'=>false,'data'=>[]];
         }
 
+        protected function update_tipoUsuario_Model($data){
+            $query = "UPDATE usuario SET tipo_usuario={$data->tipo_usuario} WHERE id={$data->id}";
+            $res = $this->update_query($query, $data);
+            return $res;
+        }
+
+        protected function update_validarUsuario_Model($data){
+            $query = "UPDATE usuario SET estado={$data->estado} WHERE id={$data->id}";
+            $res = $this->update_query($query, $data);
+            return $res;
+        }
+
+        /**
+         * 
+         */
+        // Select query
+        private function select_query($query){
+            $resquery = self::ejecutar_una_consulta($query);
+            $arrayResponse = [];
+            if($resquery->rowCount()>=1){
+                while($etiqueta = $resquery->fetch(PDO::FETCH_ASSOC)){
+                    $arrayResponse[] = $etiqueta;
+                }
+                return ['eval'=>true, 'data'=>$arrayResponse];
+            }
+            return ['eval'=>false,'data'=>$arrayResponse];
+        }
+
+        /**
+         * @param {$query} [String] consulta sql para realizar un UPDATE
+         * @param {$data} [array] Data que se quiere retornar una vez realizada la actualización. Por defecto se debe dejar vacio '[]'
+         */ 
+        //update query
+        private function update_query($query, $data){
+            //si es una consulta ajax o existe algún tipo de dato que se quiera retornar
+
+            $resquery = self::ejecutar_una_consulta($query);
+            if($resquery->rowCount() >= 1){
+                return ['eval'=>true,'data'=>$data];
+            }
+            return ['eval'=>false,'data'=>$data];
+        }
+
         //-------------------------------------------------------------------------------
         /**
          * si es verad encripta y sino desencripta

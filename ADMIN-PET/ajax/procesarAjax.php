@@ -76,6 +76,18 @@
             $res_etiqueta= $etiqueta->select_list_of_label_Controller($data);  
             echo json_encode($res_etiqueta);
         }
+        
+        elseif ( $data->id === "UPDATE_TIPOUSUARIOS_ADM"){
+            $obj = new adminController();
+            $res_sql = $obj->update_tipoUsuario_Controller($data);
+            echo json_encode($res_sql);
+        }
+
+        elseif ( $data->id === "UPDATE_VALIDARUSUARIOS_ADM"){
+            $obj = new adminController();
+            $res_sql = $obj->update_validarUsuario_Controller($data);
+            echo json_encode($res_sql);
+        }
 
 
         else {

@@ -24,19 +24,12 @@
                 //Validando niveles de seguridad. [1]:NIVEL ADMINISTRADOR
                 if($_SESSION['data']['tipo_usuario']==1){
                     // $arrayPaginas = ["salir_sistema","inicio","etiqueta",'adm_usuario','adm_estacion','asignar_usuario_estacion', 'modelo_nuevo',"modelo_existente","run_nodejs","info"];
-                    $arrayPaginas = ["salir_sistema","inicio_adm","etiqueta",'adm_usuario','adm_estacion','asignar_usuario_estacion',"info"];
-
+                    $arrayPaginas = ["salir_sistema","inicio_adm",'adm_usuario','adm_estacion','asignar_usuario_estacion',"info",  "validar_usuario_adm"];
                     $pagina = $this->pagina_sistema($pagina, $arrayPaginas, "inicio_adm.php");
                 }else{
-                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta",   "run_nodejs",'modelo_nuevo',"modelo_existente"];
+                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta", "run_nodejs",'modelo_nuevo',"modelo_existente"];
                     $pagina = $this->pagina_sistema($pagina, $arrayPaginas, "inicio.php");
-                }              
-
-                // if(in_array($pagina,$arrayPaginas,true)){
-                //     $pagina .= ".php";
-                // }else {
-                //     $pagina = "inicio.php";
-                // }
+                }
 
             }else{
 
@@ -57,7 +50,7 @@
         }
 
         /**
-         * 
+         * Devuelve la página indicada para cada nivel de usuario 
          */
         public function pagina_sistema($pagina, $arr_pags, $pag_def){
             $res_pag = $pag_def;
@@ -76,7 +69,12 @@
             return $result;
         }
 
-        
+        /**
+         * 
+         */
+        public function mensajeController(){
+            return "plantilla Controller Response OK!";
+        }
 
         /**
          * 
@@ -279,6 +277,24 @@
             $dataModel = new stdClass;
             $dataModel->dni = $data->dni;
             $resModel = self::select_list_of_label_Model($dataModel);
+            return $resModel;
+        }
+
+
+        public function update_tipoUsuario_Controller($data){
+            $dataModel = new stdClass;
+            $dataModel->id = $data->id_user;
+            $dataModel->tipo_usuario = $data->valor_tipoUser;
+            $resModel = self::update_tipoUsuario_Model($dataModel);
+            return $resModel;
+        }
+
+
+        public function update_validarUsuario_Controller($data){
+            $dataModel = new stdClass;
+            $dataModel->id = $data->id_user;
+            $dataModel->estado = $data->valor_validarUser;
+            $resModel = self::update_validarUsuario_Model($dataModel);
             return $resModel;
         }
 

@@ -12,7 +12,7 @@
 
     <!-- NAVEGACION -->
     <?php
-        include_once("views/modules/navegacion.html");
+        include_once("views/modules/navegacion_tipo.php");
     ?>
 
 

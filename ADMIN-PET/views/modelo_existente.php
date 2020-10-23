@@ -26,9 +26,10 @@
 
 </head>
 <body>
-<!---->
-    <?php    
-        include_once "./views/modules/navegacion.html";                
+
+    <!-- NAVEGACION -->
+    <?php
+        include_once("views/modules/navegacion_tipo.php");
     ?>
 
 

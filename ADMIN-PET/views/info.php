@@ -10,7 +10,7 @@
 </head>
 <body>
     <?php
-        include_once("views/modules/navegacion.html");
+        include_once("views/modules/navegacion_tipo.php");
     ?>
 
     <h1>PÁGIANA DE INFORMACIÓN</h1>
