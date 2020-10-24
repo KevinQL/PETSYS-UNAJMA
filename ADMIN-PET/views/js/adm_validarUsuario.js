@@ -26,6 +26,8 @@ function actualizar_tipoUsuario($this, id){
                 $id_reg = `.reg-${$res.id}`;
                 let el = document.querySelector($id_reg)
                 el.style.background = '#2B9EB3';
+                
+                sweetModalMin('Dato actualizado!',"top-right",2500,'success')
             }
             
         }
@@ -57,6 +59,8 @@ function actualizar_validarUsuario($this, id){
                 $id_reg = `.reg-${$res.id}`;
                 let el = document.querySelector($id_reg)
                 el.style.background = '#44AF69';
+
+                sweetModalMin('Dato actualizado!',"top-right",2500,'success')
             }
             
         }

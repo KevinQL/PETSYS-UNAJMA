@@ -27,7 +27,7 @@
                     $arrayPaginas = ["salir_sistema","inicio_adm",'adm_usuario','adm_estacion','asignar_usuario_estacion',"info",  "validar_usuario_adm"];
                     $pagina = $this->pagina_sistema($pagina, $arrayPaginas, "inicio_adm.php");
                 }else{
-                    $arrayPaginas = ["salir_sistema","inicio","info","etiqueta", "run_nodejs",'modelo_nuevo',"modelo_existente"];
+                    $arrayPaginas = ["salir_sistema","inicio","info", "run_nodejs","etiqueta",'modelo_nuevo',"modelo_existente"];
                     $pagina = $this->pagina_sistema($pagina, $arrayPaginas, "inicio.php");
                 }
 
