@@ -35,7 +35,7 @@ routes.post('/msj',(req, res)=>{
     myBoard.on("ready", function() {
         // Create a standard `led` component instance
         myLed = new Led(13);
-        
+
         servo = new Servo({
             pin:8,
             startAt:90
@@ -66,10 +66,11 @@ routes.post('/msj',(req, res)=>{
                     myLed.off()
                     servo.to(180, 500, 10);
                     setTimeout(() => {
-                        servo.to(90, 500, 10);                    
+                        servo.to(90, 500, 10);
                     }, 3000);
                 }
                 ExiteElemento=false;
+                valor = "NADA SERVIDOR"
             }
         }, 2000);
         

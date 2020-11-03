@@ -153,44 +153,58 @@ function EnvioBasuraProcessAjax(nombreResiduo, id_residuo){
  * @param {integer} porcentaje 
  */
 let proceso=false, señal = false, envCantS = 0;
+let cont_espera = 0;
 function enviarClasifiacionServidor(nombreResiduo, id_residuo, porcentaje){
     
     nombreResiduo = nombreResiduo.trim();
     
     //si no hay nada NO SE ENVÍA NADA (no hace nada) al servidor
     if(nombreResiduo !== "NADA" && proceso === false){
-        señal = true;
-        proceso = true;
+        //Esperar unos segundos para verificar realmente qué es lo que cae en la plataforma
+        cont_espera++;
+        console.log("identificando objeto :) ",cont_espera,"----> ",nombreResiduo);
 
-        if(nombreResiduo === "BOTELLA"){            
-            console.log("es una botella");
-            // se evía al servidor para clasificarlo en el contenedor de botellas
-            EnvioBasuraProcessAjax(nombreResiduo, id_residuo);            
-        }else{
-            // se envía al servidor para clasificarlo en el contenedor de residuos normales
-            EnvioBasuraProcessAjax(nombreResiduo, id_residuo);
-            console.log("es otra cosa")
+        if(cont_espera >= 8){
+            señal = true; 
+            proceso = true;
+    
+            if(nombreResiduo === "BOTELLA"){            
+                console.log("es una botella");
+                // se evía al servidor para clasificarlo en el contenedor de botellas
+                EnvioBasuraProcessAjax(nombreResiduo, id_residuo);            
+            }else{
+                // se envía al servidor para clasificarlo en el contenedor de residuos normales
+                EnvioBasuraProcessAjax(nombreResiduo, id_residuo);
+                console.log("es otra cosa")
+            }
+    
+            envCantS++;
+    
+            console.log("Enviando servidor...",envCantS,"veces");     
+
         }
 
-        envCantS++;
-
-        console.log("Enviando servidor...",envCantS,"veces");     
 
     }else{
+        // En el caso de que exista un bloqueo.
+        // por ejemplo cuando el modelo nologre capturar la etiqueta de 'NADA' durante 10 segundos. En este caso se inicializa todo de nuevo
         if(señal){
             envCantS++;
             if(envCantS==10){
                 proceso = false;
                 señal = false;
                 envCantS = 0;
-                console.log("Error, enviando otra vez");
+                cont_espera=0;
+                console.log("ERROR, enviando otra vez");
             }
             console.log("Tardando proceso ",envCantS," veces");
         }
+        //Se espera que después de realizar una clasificació, la etiqueta sea 'NADA'
         if(nombreResiduo === "NADA"){
             señal = false;
             proceso = false;
             envCantS = 0;
+            cont_espera=0;
         }
     }
 }
