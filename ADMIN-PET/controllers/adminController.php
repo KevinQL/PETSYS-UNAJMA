@@ -299,6 +299,12 @@
         }
 
 
+        public function obtenerUsuario_Controller($data){
+            $resModel = self::obtenerUsuario_Model($dataModel);
+            return $resModel;
+        }
+
+
         //------------------------------------------------------------------------------
 
 

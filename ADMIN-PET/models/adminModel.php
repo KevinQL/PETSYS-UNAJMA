@@ -202,6 +202,12 @@
             return $res;
         }
 
+        protected function obtenerUsuario_Model($data){
+            $query = "SELECT * FROM usuario";
+            $res = $this->select_query($query);
+            return $res;
+        }
+
         /**
          * 
          */

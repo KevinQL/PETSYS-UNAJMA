@@ -88,6 +88,12 @@
             $res_sql = $obj->update_validarUsuario_Controller($data);
             echo json_encode($res_sql);
         }
+        // obtener usuarios en la tabl
+        elseif ( $data->id === "obtener-usarios"){
+            $obj = new adminController();
+            $res_sql = $obj->obtenerUsuario_Controller($data);
+            echo json_encode($res_sql);
+        }
 
 
         else {
