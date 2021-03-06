@@ -300,7 +300,7 @@
 
 
         public function obtenerUsuario_Controller($data){
-            $resModel = self::obtenerUsuario_Model($dataModel);
+            $resModel = self::obtenerUsuario_Model($data);
             return $resModel;
         }
 
@@ -322,6 +322,34 @@
             
             $dataModel->id = $data->idv;
             $resModel = self::eliminarUsuario_Model($dataModel);
+            return $resModel;
+        }
+
+
+        public function obtenerEstacion_Controller($data){
+            $resModel = self::obtenerEstacion_Model($data);
+            return $resModel;
+        }
+
+        public function actuaizarEstacion_Controller($data){
+            $dataModel = new stdClass;
+
+            $dataModel->idestacion = $data->idv;
+            $dataModel->nombre = $data->nombrev;
+            $dataModel->ubicacion = $data->ubicacionv;
+            $dataModel->departamento = $data->departamentov;
+            $dataModel->provincia = $data->provinciav;
+            $dataModel->distrito = $data->distritov;
+
+            $resModel = self::actuaizarEstacion_Model($dataModel);
+            return $resModel;
+        }
+
+        public function eliminarEstacion_Controller($data){
+            $dataModel = new stdClass;
+            
+            $dataModel->idestacion = $data->idv;
+            $resModel = self::eliminarEstacion_Model($dataModel);
             return $resModel;
         }
 

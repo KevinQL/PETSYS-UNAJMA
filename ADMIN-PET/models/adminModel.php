@@ -226,6 +226,31 @@
             return $res;
         }
 
+        protected function obtenerEstacion_Model($data){
+            $query = "SELECT * FROM estacion";
+            $res = $this->select_query($query);
+            return $res;
+        }
+
+        protected function actuaizarEstacion_Model($data){
+            $query = "UPDATE estacion 
+                                SET nombre='{$data->nombre}', 
+                                    ubicacion='{$data->ubicacion}',
+                                    departamento='{$data->departamento}',
+                                    provincia='{$data->provincia}',
+                                    distrito='{$data->distrito}'
+                                WHERE idestacion={$data->idestacion}";
+
+            $res = $this->update_query($query, $data);
+            return $res;
+        }
+
+        protected function eliminarEstacion_Model($data){
+            $query = "DELETE FROM estacion WHERE idestacion={$data->idestacion}";
+            $res = $this->update_query($query, $data);
+            return $res;
+        }
+
         /**
          * 
          */

@@ -41,14 +41,14 @@
                     <a class="nav-link active" data-toggle="tab" href="#insertar">INSERTAR</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " data-toggle="tab" href="#opciones">OPCIONES</a>
+                    <a class="nav-link " data-toggle="tab" href="#opciones" onclick="cargar_estacion()">OPCIONES</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="tab" href="#ayuda">AYUDA</a>
                 </li>
             </ul>
 
-         
+        
             <!-- ///////////////////////// CONTENIDOS -->
             <div id="myTabContent" class="tab-content">
                 <!--CONTENIDO INSERTAR-->
@@ -110,7 +110,39 @@
 
                 <!-- CONTENIDO OPCIONES -->
                 <div class="tab-pane fade" id="opciones">
-                    <p>Opciones</p>
+
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Ubicación</th>
+                                <th scope="col">Departamento</th>
+                                <th scope="col">provincia</th>
+                                <th scope="col">distrito</th>
+                                <th scope="col">Actualizar</th>
+                                <th scope="col">Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="res-tbl-estacion">
+                            <tr class="reg+ID">
+                                <th scope="row">1</th>
+                                <td>Syspet</td>
+                                <td>Lampa de oro</td>
+                                <td>apurimac</td>
+                                <td>Andahuaylas</td>
+                                <td>Andahuaylas</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning" onclick="actualizarEstacion('reg-1')">Actualizar</button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger" onclick="eliminarEstacion('reg-1')">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
                 </div>
                 <!-- CONTENIDO AYUDA -->
                 <div class="tab-pane fade" id="ayuda">
@@ -132,6 +164,8 @@
     <?php        
         include_once("views/modules/cdnsfooter.html");        
     ?>
+    <script src="./views/js/adm_estacion_modif.js"></script>
+
 
 </body>
 </html>

@@ -107,6 +107,25 @@
             echo json_encode($res_sql);
         }
 
+        // Obtener losregistro de la tabla estacion
+        elseif ( $data->id === "obtener-estacion"){
+            $obj = new adminController();
+            $res_sql = $obj->obtenerEstacion_Controller($data);
+            echo json_encode($res_sql);
+        }
+        // actualizar registro de la tabla estacion
+        elseif ( $data->id === "actualizar-estacion"){
+            $obj = new adminController();
+            $res_sql = $obj->actuaizarEstacion_Controller($data);
+            echo json_encode($res_sql);
+        }
+        // Eliminar registro de la tabla estacion
+        elseif ( $data->id === "eliminar-estacion"){
+            $obj = new adminController();
+            $res_sql = $obj->eliminarEstacion_Controller($data);
+            echo json_encode($res_sql);
+        }
+
 
         else {
             echo json_encode("ERROR!!");

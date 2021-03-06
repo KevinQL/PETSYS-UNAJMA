@@ -1,14 +1,10 @@
-console.log("adm_usuario_modif.js loader");
+console.log("adm_estacion_modif.js loader");
 
-console.log(pruebaArchivo("OK msj"))
+function cargar_estacion(){
+    console.log('CARGANDO ESTACION')
+    let tbl_res = document.querySelector("#res-tbl-estacion");
 
-// cargamos la lista de los usuario de la base de datos
-
-function cargar_usuarios(){
-    console.log('CARGANDO USUARIOS')
-    let tbl_res = document.querySelector("#res-tbl-usuario");
-
-    let data = {id:'obtener-usarios'};
+    let data = {id:'obtener-estacion'};
     let url = './ajax/procesarAjax.php';
     fetchKev('POST',
         data,
@@ -21,20 +17,20 @@ function cargar_usuarios(){
                 data.forEach(elem => {
                     console.log(elem)
                     res_html += `
-                        <tr class="reg-${elem.id}">
+                        <tr class="reg-${elem.idestacion}">
                             <th scope="row">${++cont}</th>
-                            <td contenteditable="true">${elem.dni}</td>
                             <td contenteditable="true">${elem.nombre}</td>
-                            <td contenteditable="true">${elem.apellido}</td>
-                            <td>${elem.user}</td>
-                            <td>******</td>
+                            <td contenteditable="true">${elem.ubicacion}</td>
+                            <td>${elem.departamento}</td>
+                            <td>${elem.provincia}</td>
+                            <td>${elem.distrito}</td>
                             <td>
-                                <button type="button" class="btn btn-warning" onclick="actualizarUsuario('${elem.id}')">
+                                <button type="button" class="btn btn-warning" onclick="actualizarEstacion('${elem.idestacion}')">
                                     Actualizar
                                 </button>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger" onclick="eliminarUsuario('${elem.id}')">
+                                <button type="button" class="btn btn-danger" onclick="eliminarEstacion('${elem.idestacion}')">
                                     Eliminar
                                 </button>
                             </td>
@@ -46,30 +42,34 @@ function cargar_usuarios(){
         },
         url
     );
+
 }
 
-function actualizarUsuario($id){
-    console.log('actualizar', $id)
+
+function actualizarEstacion($id){
+    console.log("id actualizar ", $id )
     let reg = document.querySelector(".reg-"+$id);
 
-    let idv, dniv, nombrev, apellidov;
+    let idv, nombrev, ubicacionv, departamentov, provinciav, distritov;
     idv = $id
-    dniv = reg.cells[1].innerText
-    nombrev = reg.cells[2].innerText
-    apellidov = reg.cells[3].innerText
+    nombrev = reg.cells[1].innerText
+    ubicacionv = reg.cells[2].innerText
+    departamentov = reg.cells[3].innerText
+    provinciav = reg.cells[4].innerText
+    distritov = reg.cells[5].innerText
 
-    console.log({idv, dniv, nombrev, apellidov});
-    data = {id:'actualizar-usuario', idv, dniv, nombrev, apellidov};
+    console.log({idv, nombrev, ubicacionv, departamentov, provinciav, distritov});
+    data = {id:'actualizar-estacion', idv, nombrev, ubicacionv, departamentov, provinciav, distritov};
     let url = './ajax/procesarAjax.php';
     fetchKev('POST',
         data,
         res =>{
             console.log(res);
             if(res.eval){
-                sweetModal('Usuario actualizado!','center','success',1500);
-                cargar_usuarios();
+                sweetModal('Estación actualizado!','center','success',1500);
+                cargar_estacion();
             }else{
-                sweetModal('Usuario no actualizado!','center','warning',1500);
+                sweetModal('Estación no actualizado!','center','warning',1500);
             }
         },
         url
@@ -77,8 +77,9 @@ function actualizarUsuario($id){
 
 }
 
-function eliminarUsuario($id){
-    console.log('eliminar', $id)
+
+function eliminarEstacion($id){
+    console.log("id eliminar ", $id )
 
     Swal.fire({
             title: 'Estás seguro?',
@@ -93,7 +94,7 @@ function eliminarUsuario($id){
             if (result.isConfirmed) {
 
                 let idv = $id;
-                let data = {id:'eliminar-usuario', idv};
+                let data = {id:'eliminar-estacion', idv};
                 let url = './ajax/procesarAjax.php';
 
                 fetchKev('POST',
@@ -101,10 +102,10 @@ function eliminarUsuario($id){
                     res =>{
                         console.log(res);
                         if(res.eval){
-                            sweetModal('Usuario eliminado!','center','success',1500);
-                            cargar_usuarios();
+                            sweetModal('Estación eliminado!','center','success',1500);
+                            cargar_estacion();
                         }else{
-                            sweetModal('Usuario no eliminado!','center','warning',1500);
+                            sweetModal('Estación no eliminado!','center','warning',1500);
                         }
                     },
                     url
