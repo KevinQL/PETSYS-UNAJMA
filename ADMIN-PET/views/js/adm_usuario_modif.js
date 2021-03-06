@@ -26,15 +26,15 @@ function cargar_usuarios(){
                             <td contenteditable="true">${elem.dni}</td>
                             <td contenteditable="true">${elem.nombre}</td>
                             <td contenteditable="true">${elem.apellido}</td>
-                            <td contenteditable="true">${elem.user}</td>
+                            <td>${elem.user}</td>
                             <td>******</td>
                             <td>
-                                <button type="button" class="btn btn-warning" onclick="actualizarUsuario('reg-${elem.id}')">
+                                <button type="button" class="btn btn-warning" onclick="actualizarUsuario('${elem.id}')">
                                     Actualizar
                                 </button>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger" onclick="eliminarUsuario('reg-${elem.id}')">
+                                <button type="button" class="btn btn-danger" onclick="eliminarUsuario('${elem.id}')">
                                     Eliminar
                                 </button>
                             </td>
@@ -50,8 +50,70 @@ function cargar_usuarios(){
 
 function actualizarUsuario($id){
     console.log('actualizar', $id)
+    let reg = document.querySelector(".reg-"+$id);
+
+    let idv, dniv, nombrev, apellidov;
+    idv = $id
+    dniv = reg.cells[1].innerText
+    nombrev = reg.cells[2].innerText
+    apellidov = reg.cells[3].innerText
+
+    console.log({idv, dniv, nombrev, apellidov});
+    data = {id:'actualizar-usuario', idv, dniv, nombrev, apellidov};
+    let url = './ajax/procesarAjax.php';
+    fetchKev('POST',
+        data,
+        res =>{
+            console.log(res);
+            if(res.eval){
+                sweetModal('Usuario actualizado!','center','success',1500);
+                cargar_usuarios();
+            }else{
+                sweetModal('Usuario no actualizado!','center','warning',1500);
+            }
+        },
+        url
+    )
+
 }
 
 function eliminarUsuario($id){
     console.log('eliminar', $id)
+
+    Swal.fire({
+            title: 'Estás seguro?',
+            text: "No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Eliminar!'
+        }).then((result) => {
+            
+            if (result.isConfirmed) {
+
+                let idv = $id;
+                let data = {id:'eliminar-usuario', idv};
+                let url = './ajax/procesarAjax.php';
+
+                fetchKev('POST',
+                    data,
+                    res =>{
+                        console.log(res);
+                        if(res.eval){
+                            sweetModal('Usuario eliminado!','center','success',1500);
+                            cargar_usuarios();
+                        }else{
+                            sweetModal('Usuario no eliminado!','center','warning',1500);
+                        }
+                    },
+                    url
+                )
+
+
+                
+            }
+        }
+    );
+
 }

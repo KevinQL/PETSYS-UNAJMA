@@ -305,6 +305,26 @@
         }
 
 
+        public function actualizarUsuario_Controller($data){
+            $dataModel = new stdClass;
+
+            $dataModel->id = $data->idv;
+            $dataModel->dni = $data->dniv;
+            $dataModel->nombre = $data->nombrev;
+            $dataModel->apellido = $data->apellidov;
+
+            $resModel = self::actualizarUsuario_Model($dataModel);
+            return $resModel;
+        }
+
+        public function eliminarUsuario_Controller($data){
+            $dataModel = new stdClass;
+            
+            $dataModel->id = $data->idv;
+            $resModel = self::eliminarUsuario_Model($dataModel);
+            return $resModel;
+        }
+
         //------------------------------------------------------------------------------
 
 

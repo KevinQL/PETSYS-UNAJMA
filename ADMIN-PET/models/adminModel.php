@@ -208,6 +208,24 @@
             return $res;
         }
 
+        protected function actualizarUsuario_Model($data){
+
+            $query = "UPDATE usuario 
+                                SET dni='{$data->dni}', 
+                                    nombre='{$data->nombre}',
+                                    apellido='{$data->apellido}'
+                                WHERE id={$data->id}";
+
+            $res = $this->update_query($query, $data);
+            return $res;
+        }
+
+        protected function eliminarUsuario_Model($data){
+            $query = "DELETE FROM usuario WHERE id={$data->id}";
+            $res = $this->update_query($query, $data);
+            return $res;
+        }
+
         /**
          * 
          */

@@ -94,6 +94,18 @@
             $res_sql = $obj->obtenerUsuario_Controller($data);
             echo json_encode($res_sql);
         }
+        // actualizaar usuarios en la tabl
+        elseif ( $data->id === "actualizar-usuario"){
+            $obj = new adminController();
+            $res_sql = $obj->actualizarUsuario_Controller($data);
+            echo json_encode($res_sql);
+        }
+        // actualizaar usuarios en la tabl
+        elseif ( $data->id === "eliminar-usuario"){
+            $obj = new adminController();
+            $res_sql = $obj->eliminarUsuario_Controller($data);
+            echo json_encode($res_sql);
+        }
 
 
         else {
