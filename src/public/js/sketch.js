@@ -149,11 +149,15 @@ function EnvioBasuraProcessAjax(nombreResiduo, id_residuo){
 
 /**
  * 
- * @param {string} nombreResiduo 
- * @param {integer} porcentaje 
+ * @param {string} nombreResiduo Nombre del elemento detectado
+ * @param {integer} porcentaje Nivel de confianza con el que se está clasificando el elemento detectado.
+ * 
+ * @pruebas (success)
  */
-let proceso=false, señal = false, envCantS = 0;
-let cont_espera = 0;
+let proceso=false; // controla que el elemento de la pltaforma ha sido identificado, por lo tanto el mecanismo de clasificación está activo.
+let señal = false; // controla que el sitema se inicie nuevamente sin bloqueos, por lo que reinicia los valores al principio.
+let envCantS = 0; // cuenta el numero de veces que se envía el elemento al servidor para que este se clasifique.
+let cont_espera = 0; //Tiempo de espera para identificar adecuadamente el elemento de la plataforma. (8 segundos)
 function enviarClasifiacionServidor(nombreResiduo, id_residuo, porcentaje){
     
     nombreResiduo = nombreResiduo.trim();
@@ -191,8 +195,8 @@ function enviarClasifiacionServidor(nombreResiduo, id_residuo, porcentaje){
         if(señal){
             envCantS++;
             if(envCantS==10){
-                proceso = false;
                 señal = false;
+                proceso = false;
                 envCantS = 0;
                 cont_espera=0;
                 console.log("ERROR, enviando otra vez");
